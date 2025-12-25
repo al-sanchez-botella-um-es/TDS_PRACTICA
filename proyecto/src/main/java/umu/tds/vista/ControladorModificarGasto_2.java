@@ -21,12 +21,16 @@ import javafx.stage.Stage;
 import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Categoria;
 import umu.tds.modelo.Gasto;
+import umu.tds.repository.impl.RepositorioCategoriaJSON;
 import umu.tds.repository.impl.RepositorioGastoJSON;
 
 public class ControladorModificarGasto_2{
 	private Gasto gastoAEditar;
     // Instancia del repositorio para guardar los cambios
-    private final RepositorioGastoJSON repositorio = new RepositorioGastoJSON().getInstance();
+	private final RepositorioGastoJSON repositorioGastos = RepositorioGastoJSON.getInstance();
+    
+    // 2. Instancia del Repositorio de Categorías (Singleton)
+    private final RepositorioCategoriaJSON repositorioCategorias = RepositorioCategoriaJSON.getInstance();
     @FXML private ResourceBundle resources;
 
     @FXML private URL location;
@@ -67,9 +71,19 @@ public class ControladorModificarGasto_2{
         nombreGasto.setText(gasto.getNombre());
         cantidadGasto.setText(String.valueOf(gasto.getCantidad()));
         fechaGasto.setValue(gasto.getFecha());
-        this.categoriaGasto = gasto.getCategoria();
+     // 2. Lógica del ComboBox (LA PARTE CLAVE)
+        categoriasCreadas.getItems().clear(); // Limpiamos lo que haya
+
+        // CARGAMOS TODAS LAS CATEGORÍAS DEL REPOSITORIO
+        ObservableList<Categoria> todas = repositorioCategorias.findAll();
+        categoriasCreadas.getItems().addAll(todas); 
+
+        // Seleccionamos la actual si existe
+        if (gasto.getCategoria() != null) {
+            categoriasCreadas.getSelectionModel().select(gasto.getCategoria());
+        }
     }
-    
+        
     @FXML
     void modificarGasto_2(ActionEvent event) {
     	if (gastoAEditar != null) {
@@ -85,11 +99,12 @@ public class ControladorModificarGasto_2{
                 gastoAEditar.setNombre(nuevoNombre);
                 gastoAEditar.setCantidad(nuevaCantidad);
                 gastoAEditar.setFecha(nuevaFecha);
-                // Puedes actualizar la categoría aquí
-                
+                if (nuevaCategoria != null) {
+                    gastoAEditar.setCategoria(nuevaCategoria);
+                }
                 // Persistir el gasto actualizado en el repositorio
-                repositorio.save(gastoAEditar); 
-
+                repositorioGastos.save(gastoAEditar); 
+                
                 // Cerrar la ventana de modificación
                 cancelarModifGasto_2(event); // Reutilizamos el método para cerrar la ventana
             } catch (NumberFormatException e) {
@@ -129,30 +144,29 @@ public class ControladorModificarGasto_2{
     }
     @FXML
     void crearNuevaCategoria(ActionEvent event) {
-    	TextInputDialog dialog = new TextInputDialog();
+        TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Nueva categoría");
-        dialog.setHeaderText(null);
+        dialog.setHeaderText("Crear nueva categoría");
         dialog.setContentText("Nombre:");
         
         dialog.showAndWait().ifPresent(nombre -> {
-            if (!nombre.isEmpty()) {
+            if (!nombre.trim().isEmpty()) {
+                // 1. Crear el objeto
+                Categoria nuevaCategoria = new Categoria(nombre);
                 
-                // 1. Crear el objeto Categoria
-                Categoria nuevaCategoria = new Categoria(nombre); 
+                // 2. Guardar en el disco (JSON)
+                // Esto asegura que salga la próxima vez que abras la app
+                repositorioCategorias.save(nuevaCategoria);
                 
-                // 2. Persistir el objeto (Asumiendo que tienes un repositorio)
-                // repositorioCategoria.add(nuevaCategoria); 
+                // 3. --- EL PASO QUE TE FALTA ---
+                // Añadirlo VISUALMENTE al ComboBox ahora mismo.
+                // Si no haces esto, la lista visual no se entera del cambio.
+                if (!categoriasCreadas.getItems().contains(nuevaCategoria)) {
+                    categoriasCreadas.getItems().add(nuevaCategoria);
+                }
                 
-                // 3. Añadir el objeto Categoria al ComboBox
-            	categoriasCreadas.getItems().add(nuevaCategoria);
-                
-                // 4. Seleccionar el objeto Categoria
-            	categoriasCreadas.getSelectionModel().select(nuevaCategoria);
-            	
-                controladorVentanaPrincipal.mostrarEnTerminal("Categoría añadida y persistida: " + nombre);
-                
-            } else {
-            	controladorVentanaPrincipal.mostrarEnTerminal("ERROR: La categoría no puede estar vacía");
+                // 4. Seleccionarla automáticamente para comodidad del usuario
+                categoriasCreadas.getSelectionModel().select(nuevaCategoria);
             }
         });
     }

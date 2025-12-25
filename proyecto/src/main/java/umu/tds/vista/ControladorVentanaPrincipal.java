@@ -77,11 +77,11 @@ public class ControladorVentanaPrincipal {
                 ((ControladorEliminarGasto) controlador).cargarGastos();
             }
             
-            /*if (controlador instanceof ControladorModificarGasto) {
+            if (controlador instanceof ControladorModificarGasto) {
                 ((ControladorModificarGasto) controlador).setControladorPrincipal(this);
                 ((ControladorModificarGasto) controlador).setControladorApp(controladorApp);
                 ((ControladorModificarGasto) controlador).cargarGastos();
-            }*/
+            }
             
             if (controlador instanceof ControladorFiltrarGastos) {
             	((ControladorFiltrarGastos) controlador).setControladorPrincipal(this);
@@ -114,7 +114,7 @@ public class ControladorVentanaPrincipal {
     
     @FXML
     void modifyGasto(ActionEvent event) {
-    	//abrirPestaña("Modificar Gasto", "/umu/tds/VentanaModificarGasto.fxml");
+    	abrirPestaña("Modificar Gasto", "/umu/tds/VentanaModificarGasto.fxml");
     }
 
     @FXML

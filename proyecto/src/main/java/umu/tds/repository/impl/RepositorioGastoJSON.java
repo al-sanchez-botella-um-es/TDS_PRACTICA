@@ -40,7 +40,9 @@ public class RepositorioGastoJSON implements Repositorio<Gasto> {
 
     @Override
     public void save(Gasto gasto) {
-        gastos.add(gasto);
+    	if (!gastos.contains(gasto)) {
+            gastos.add(gasto);
+        }
         guardar();
     }
 

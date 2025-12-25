@@ -11,16 +11,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import umu.tds.controlador.Controlador;
 import umu.tds.modelo.Categoria;
 import umu.tds.modelo.Gasto;
 import umu.tds.repository.impl.RepositorioGastoJSON;
 import javafx.scene.control.cell.PropertyValueFactory; // Necesario para TableView
+import javafx.scene.layout.VBox;
 
 public class ControladorModificarGasto {
 	
@@ -32,32 +36,28 @@ public class ControladorModificarGasto {
 
     @FXML private ResourceBundle resources;
     @FXML private URL location;
-    
-    // ATENCIÓN: listaGastos no está en tu FXML, pero la dejamos si se usa internamente
-    // Si no se usa para nada más, considera eliminarla para evitar confusiones.
-    @FXML private ListView<Gasto> listaGastos; 
-
     @FXML private Button BotonCancelar;
     @FXML private Button BotonModificar;
+    
     // Elementos del TableView de tu FXML
     @FXML private TableView<Gasto> tablaModificarGastos;
     @FXML private TableColumn<Gasto, String> TablaNombre;
     @FXML private TableColumn<Gasto, String> TablaCantidad;
     @FXML private TableColumn<Gasto, String> TablaCategoria;
     @FXML private TableColumn<Gasto, String> TablaFecha;
-
-    private Categoria categoria;
-    // Debes añadir las otras columnas aquí si las usas en el controlador:
-    // @FXML private TableColumn<Gasto, String> TablaNombre1; // Categoría
-    // @FXML private TableColumn<Gasto, String> TablaNombre11; // Fecha
-
+    @FXML private ToggleButton filtrarGastos;
+    @FXML private VBox categoriaVBox;
     @FXML private TextArea terminal;
     
-    // Referencia a ControladorModificarGasto_2 (Mantenida por si acaso, aunque opcional)
+    // Referencia a ControladorModificarGasto_2 
 	private ControladorModificarGasto_2 controladorModif_2;
+	private Controlador controladorApp;
     
-    // --- SETTERS ---
-
+	
+	// --- SETTERS ---
+    public void setControladorApp(Controlador controlador) {
+        this.controladorApp = controlador;
+    }
     public void setControladorPrincipal(ControladorVentanaPrincipal controlador) {
     	this.controladorVentanaPrincipal = controlador;
     }
@@ -67,7 +67,11 @@ public class ControladorModificarGasto {
     }
     
     // --- TERMINAL ---
-
+    public void cargarGastos() {
+        if(controladorApp != null) {
+            tablaModificarGastos.setItems((ObservableList<Gasto>) controladorApp.getGastos());
+        }
+    }
     public void mostrarEnTerminal(String texto) {
         if (controladorVentanaPrincipal != null) {
             controladorVentanaPrincipal.mostrarEnTerminal(texto);
@@ -76,7 +80,6 @@ public class ControladorModificarGasto {
         }
     }
     
-    // --- FLUJO DE PESTAÑAS (DEJADO COMO DUMMY) ---
     // (Este método se mantiene, pero no se usa en el flujo de ventanas modales)
     private void abrirPestaña(String rutaFXML) {
     	try {
@@ -86,6 +89,7 @@ public class ControladorModificarGasto {
             Object controlador = loader.getController();
             if (controlador instanceof ControladorModificarGasto_2) {
                 ((ControladorModificarGasto_2) controlador).setControladorModif(this);
+                ((ControladorModificarGasto_2) controlador).cargarGastos();
             }
     	}
     	catch (IOException e) {
@@ -138,11 +142,11 @@ public class ControladorModificarGasto {
 
                 mostrarEnTerminal("Abriendo ventana de edición...");
                 stageModificar.showAndWait(); // Ejecución pausada aquí.
-                
+                tablaModificarGastos.refresh();
                 // 4. Recargar la tabla al volver (tras guardar o cancelar)
                 recargarTabla();
+                repositorio.save(gastoSeleccionado);
                 mostrarEnTerminal("Operación de edición finalizada. Lista de gastos actualizada.");
-                
             } catch (IOException e) {
                 e.printStackTrace();
                 mostrarEnTerminal("ERROR: Fallo al cargar la ventana de modificación. " + e.getMessage());
@@ -153,16 +157,12 @@ public class ControladorModificarGasto {
     }
     
     public void guardarGastoModificado(Gasto gastoModificado) {
-        
-        // 1. Persistir el gasto modificado en el repositorio
-        // NOTA: Asumimos que el repositorio tiene un método 'update' o 'save'
         repositorio.save(gastoModificado); 
-        
-        // 2. Recargar la tabla para mostrar los cambios
         recargarTabla();
-        
         mostrarEnTerminal("Gasto '" + gastoModificado.getNombre() + "' modificado y guardado.");
     }
+    
+    
     /** Recarga los datos en el TableView. */
     public void recargarTabla() {
         // Asegúrate de usar el método setItems del TableView
@@ -187,9 +187,23 @@ public class ControladorModificarGasto {
         // Debes asegurar que "nombre" y "cantidad" coincidan con los nombres de las propiedades en la clase Gasto
         TablaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         TablaCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        TablaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria.nombre")); 
+        //TablaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria.nombre")); ESTA LINEA NO VA
+     // ESTO SÍ FUNCIONA
+        TablaCategoria.setCellValueFactory(cellData -> {
+            // 1. Obtenemos el Gasto de la fila
+            Gasto gasto = cellData.getValue();
+            
+            // 2. Comprobamos si tiene categoría para evitar errores si es null
+            if (gasto.getCategoria() != null) {
+                // Devolvemos el nombre de la categoría envuelto en una propiedad de JavaFX
+                return new javafx.beans.property.SimpleStringProperty(gasto.getCategoria().getNombre());
+            } else {
+                return new javafx.beans.property.SimpleStringProperty("Sin Categoría");
+            }
+        });
         TablaFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        //listaGastos.setItems((ObservableList<Gasto>) repositorio.findAll()); 	//se vincula directamente ESTA LINEA DA ERROR
+        //ESTA LINEA NO FUNCIONA
+        //listaGastos.setItems((ObservableList<Gasto>) repositorio.findAll()); 	//se vincula directamente 
         // Carga inicial de datos: usando la tabla, no la lista
         recargarTabla(); 	
     }

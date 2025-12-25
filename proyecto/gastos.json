@@ -8,22 +8,43 @@
 }, {
   "nombre" : "libreta",
   "Categoria" : {
-    "nombre" : "Utiles"
+    "nombre" : "sd"
   },
   "Cantidad" : 3.5,
   "Fecha" : "17-11-2025"
-}, {
-  "nombre" : "comida",
-  "Categoria" : {
-    "nombre" : "Hosteleria"
-  },
-  "Cantidad" : 7.99,
-  "Fecha" : "03-12-2025"
 }, {
   "nombre" : "perfume Valentino",
   "Categoria" : {
     "nombre" : "Caprichos"
   },
-  "Cantidad" : 50.0,
+  "Cantidad" : 60.0,
   "Fecha" : "30-11-2024"
+}, {
+  "nombre" : "versace",
+  "Categoria" : {
+    "nombre" : "Perfume"
+  },
+  "Cantidad" : 80.0,
+  "Fecha" : "17-10-2023"
+}, {
+  "nombre" : "champu",
+  "Categoria" : {
+    "nombre" : "Utiles"
+  },
+  "Cantidad" : 5.0,
+  "Fecha" : "30-11-2024"
+}, {
+  "nombre" : "cocacola",
+  "Categoria" : {
+    "nombre" : "Comer"
+  },
+  "Cantidad" : 2.0,
+  "Fecha" : "17-11-2025"
+}, {
+  "nombre" : "Bebida",
+  "Categoria" : {
+    "nombre" : "Deporte"
+  },
+  "Cantidad" : 9.0,
+  "Fecha" : "03-12-2025"
 } ]

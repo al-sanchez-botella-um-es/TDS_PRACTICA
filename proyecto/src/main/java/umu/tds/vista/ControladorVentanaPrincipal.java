@@ -122,6 +122,11 @@ public class ControladorVentanaPrincipal {
             	((ControladorAlertas) controlador).cargarAlertas();
             }
             
+            if (controlador instanceof ControladorCuentaCompartida) {
+            	((ControladorCuentaCompartida) controlador).setControladorPrincipal(this);
+            	((ControladorCuentaCompartida) controlador).setControladorApp(controladorApp);
+            }
+            
             Tab nuevaTab = new Tab(titulo);
             nuevaTab.setClosable(true);	
             nuevaTab.setContent(contenido);
@@ -156,7 +161,7 @@ public class ControladorVentanaPrincipal {
 
     @FXML
     void crearCuentaCompartida(ActionEvent event) {
-    	//abrirPestaña("Crear Cuenta Compartida", "/umu/tds/VentanaCuentaCompartida.fxml");
+    	abrirPestaña("Cuenta Compartida", "/umu/tds/VentanaCuentaCompartida.fxml");
     }
 
     @FXML
@@ -169,7 +174,7 @@ public class ControladorVentanaPrincipal {
         tabPane.getTabs().clear();
         mostrarEnTerminal("Has vuelto a la ventana principal.");
     }
-    
+     
     @FXML
     void salirDeLaAplicacion(ActionEvent event) {
     	System.exit(0);

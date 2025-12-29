@@ -23,6 +23,7 @@ public class RepositorioCategoriaJSON implements Repositorio<Categoria> {
         this.mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         cargar();
+        cargarCategoriasPredefinidas();
     }
     
     /// Singleton
@@ -31,6 +32,17 @@ public class RepositorioCategoriaJSON implements Repositorio<Categoria> {
             instancia = new RepositorioCategoriaJSON();
         }
         return instancia;
+    }
+    
+    public void cargarCategoriasPredefinidas() {
+    	List<String> nombres = List.of("Alimentación", "Transporte", "Entretenimiento");
+    	for (String nombre : nombres) {
+    		boolean existe = categorias.stream()
+    				.anyMatch(c -> c.getNombre().equalsIgnoreCase(nombre));
+    		if (!existe) {
+    			categorias.add(new Categoria(nombre));
+    		}
+    	}
     }
     
     @Override
@@ -44,6 +56,11 @@ public class RepositorioCategoriaJSON implements Repositorio<Categoria> {
     public void delete(Categoria categoria) {
         categorias.remove(categoria);
         guardar();
+    }
+    
+    @Override
+    public void modify(Categoria categoria) {
+        // No se permite
     }
     
     @Override

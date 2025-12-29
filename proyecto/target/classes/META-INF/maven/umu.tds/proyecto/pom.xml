@@ -13,6 +13,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <!--<repositories>
+  	<repository>
+  		<id>calendarfx-github</id>
+  		<url>https://maven.pkg.github.com/dlsc-software-consulting-gmbh/CalendarFX</url>
+  	</repository>
+  </repositories>-->
 
   <dependencies>
     <dependency>
@@ -60,6 +67,12 @@
     	<artifactId>jackson-datatype-jsr310</artifactId>
     	<version>2.19.4</version>
 	</dependency>
+	
+	<!--<dependency>
+    	<groupId>com.calendarfx</groupId>
+    	<artifactId>calendarfx-view</artifactId>
+    	<version>11.12.6</version>
+	</dependency>-->
   </dependencies>
   
    <build>
@@ -74,7 +87,6 @@
         </plugin>
     </plugins>
 </build>
-  
   
   
 </project>

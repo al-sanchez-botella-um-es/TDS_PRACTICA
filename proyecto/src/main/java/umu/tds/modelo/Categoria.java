@@ -23,8 +23,21 @@ public class Categoria {
 		return nombre;
 	}
 	
-    @Override
+	@Override
     public String toString() {
-        return this.nombre; // Asegúrate de que tu atributo se llama 'nombre'
+        return this.nombre;
     }
+	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (!(o instanceof Categoria)) return false;
+	    Categoria c = (Categoria) o;
+	    return nombre != null && nombre.equalsIgnoreCase(c.nombre);
+	}
+
+	@Override
+	public int hashCode() {
+	    return nombre == null ? 0 : nombre.toLowerCase().hashCode();
+	}
 }

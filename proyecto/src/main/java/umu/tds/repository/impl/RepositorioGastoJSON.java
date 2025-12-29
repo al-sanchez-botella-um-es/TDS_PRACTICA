@@ -22,7 +22,7 @@ public class RepositorioGastoJSON implements Repositorio<Gasto> {
     private final ObjectMapper mapper;
     private final ObservableList<Gasto> gastos = FXCollections.observableArrayList();
     
-    public RepositorioGastoJSON() {
+    private RepositorioGastoJSON() {
         this.mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule()); // soporte para LocalDate
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -41,8 +41,8 @@ public class RepositorioGastoJSON implements Repositorio<Gasto> {
     @Override
     public void save(Gasto gasto) {
     	if (!gastos.contains(gasto)) {
-            gastos.add(gasto);
-        }
+    		gastos.add(gasto);
+    	}
         guardar();
     }
 
@@ -50,6 +50,18 @@ public class RepositorioGastoJSON implements Repositorio<Gasto> {
     public void delete(Gasto gasto) {
         gastos.remove(gasto);
         guardar();
+    }
+    
+    @Override
+    public void modify(Gasto gastoModificado) {
+        for (int i = 0; i < gastos.size(); i++) {
+            Gasto g = gastos.get(i);
+            if (g.equals(gastoModificado)) {
+                gastos.set(i, gastoModificado);
+                guardar();
+                return;
+            }
+        }
     }
     
     @Override

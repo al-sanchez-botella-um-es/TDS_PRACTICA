@@ -1,0 +1,22 @@
+[ {
+  "limite" : 40.0,
+  "Frecuencia" : "MENSUAL",
+  "Categoria" : {
+    "nombre" : "Caprichos"
+  },
+  "CantidadLimite" : 40.0
+}, {
+  "limite" : 50.0,
+  "Frecuencia" : "ANUAL",
+  "Categoria" : {
+    "nombre" : "Entretenimiento"
+  },
+  "CantidadLimite" : 50.0
+}, {
+  "limite" : 15.5,
+  "Frecuencia" : "SEMANAL",
+  "Categoria" : {
+    "nombre" : "Utiles"
+  },
+  "CantidadLimite" : 15.5
+} ]

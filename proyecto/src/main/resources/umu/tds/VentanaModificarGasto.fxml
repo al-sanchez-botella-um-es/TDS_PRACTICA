@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.vista.ControladorModificarGasto">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.vista.ControladorModificarGasto">
    <children>
-      <TableView fx:id="tablaModificarGastos" layoutX="110.0" layoutY="24.0" prefHeight="310.0" prefWidth="470.0" AnchorPane.bottomAnchor="66.0" AnchorPane.topAnchor="24.0">
+      <TableView fx:id="tablaModificarGastos" layoutX="109.0" layoutY="26.0" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="20.0">
         <columns>
           <TableColumn fx:id="TablaNombre" prefWidth="50.0" text="Nombre" />
             <TableColumn fx:id="TablaCategoria" prefWidth="50.0" text="Categoria" />
@@ -22,9 +22,9 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <BorderPane prefHeight="400.0" prefWidth="103.0">
+      <BorderPane prefHeight="400.0" prefWidth="115.0">
          <top>
-            <Label prefHeight="128.0" prefWidth="103.0" text="MODIFICAR" BorderPane.alignment="CENTER">
+            <Label prefHeight="128.0" prefWidth="123.0" style="-fx-font-weight: bold;" text="MODIFICAR" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
@@ -33,8 +33,8 @@
       </BorderPane>
       <HBox layoutX="227.0" layoutY="346.0" prefHeight="40.0" prefWidth="235.0" spacing="30.0">
          <children>
-            <Button fx:id="BotonModificar" mnemonicParsing="false" onAction="#modificarGasto" prefHeight="35.0" prefWidth="69.0" text="Modificar" />
-            <Button fx:id="BotonCancelar" mnemonicParsing="false" onAction="#cancelar" prefHeight="35.0" prefWidth="69.0" text="Cancelar" />
+            <Button fx:id="BotonModificar" mnemonicParsing="false" onAction="#modificarGasto" prefHeight="35.0" prefWidth="81.0" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-weight: bold;" text="Modificar" />
+            <Button fx:id="BotonCancelar" mnemonicParsing="false" onAction="#cancelar" prefHeight="35.0" prefWidth="69.0" style="-fx-background-color: lightgray; -fx-font-weight: bold;" text="Cancelar" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />

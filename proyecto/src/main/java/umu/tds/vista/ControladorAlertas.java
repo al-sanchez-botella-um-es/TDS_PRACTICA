@@ -60,8 +60,10 @@ public class ControladorAlertas {
         }
         double limite = Double.parseDouble(limiteStr);
         Alerta alerta = controladorApp.configurarAlerta(frecuenciaStr, categoriaStr, limite);
-		alertas.getItems().add(new CheckBox(alerta.toString()));
-		controladorVentanaPrincipal.mostrarEnTerminal("Alerta configurada -> " + alerta);
+        CheckBox cb = new CheckBox(alerta.toString());
+        cb.setUserData(alerta);
+        alertas.getItems().add(cb);
+		controladorVentanaPrincipal.mostrarEnTerminal("Alerta configurada : " + alerta);
 		limpiarFormulario();
     }
     
@@ -69,14 +71,15 @@ public class ControladorAlertas {
     	semanal.setSelected(false);
 		mensual.setSelected(false);
 		anual.setSelected(false);
+		frecuenciaBotton.setText("");
 		for (Object item : categoriaBottom.getItems()) {
-			if (item instanceof CheckMenuItem) {
-				((CheckMenuItem) item).setSelected(false);
+			if (item instanceof CheckMenuItem Citem) {
+				Citem.setSelected(false);
 			}
 		}
 		cantidadLimite.clear();
 		// Actualizar textos y reglas
-		frecuenciaBotton.setText("");
+		categoriaBottom.setText("");
 		updateCategoriaText();
     }
 
@@ -89,7 +92,17 @@ public class ControladorAlertas {
     //Borrar alertas seleccionadas -> hay que añadir persistencia
     @FXML
     private void borrarAlertas() {
-    	alertas.getItems().removeIf(CheckBox::isSelected);
+        alertas.getItems().removeIf(cb -> {
+            if (cb.isSelected()) {
+                Alerta alerta = (Alerta) cb.getUserData();
+                if (alerta != null) {
+                    controladorApp.removeAlerta(alerta);
+                    controladorVentanaPrincipal.mostrarEnTerminal("Alerta desactivada : " + alerta);
+                }
+                return true;
+            }
+            return false;
+        });
     }
         
     //Refleja las opciones marcadas por el usuario
@@ -115,27 +128,32 @@ public class ControladorAlertas {
     
     public void cargarCategorias() {
         categoriaBottom.getItems().clear();
-        String[] predefinidas = {"Alimentación", "Transporte", "Entretenimiento"};
-        for (String nombre : predefinidas) {
-            CheckMenuItem item = new CheckMenuItem(nombre);
-            item.selectedProperty().addListener((obs, oldVal, newVal) -> updateCategoriaText());
-            categoriaBottom.getItems().add(item);
-        }
         if (controladorApp != null) {
-	        for (Categoria categoria : controladorApp.getCategorias()) {
-	            CheckMenuItem item = new CheckMenuItem(categoria.getNombre());
-	            item.selectedProperty().addListener((obs, oldValor, newValor) -> updateCategoriaText());
-	            categoriaBottom.getItems().add(item);
-	        }
+            for (Categoria categoria : controladorApp.getCategorias()) {
+                CheckMenuItem item = new CheckMenuItem(categoria.getNombre());
+                item.setOnAction(e -> {
+                    // Desmarcar todas las demás
+                    for (Object other : categoriaBottom.getItems()) {
+                        if (other instanceof CheckMenuItem o && o != item) {
+                            o.setSelected(false);
+                        }
+                    }
+                    // Actualizar texto del botón
+                    categoriaBottom.setText(item.getText());
+                });
+                categoriaBottom.getItems().add(item);
+            }
         }
-        //Inicializar el texto del botón
+        // Inicializar el texto del botón
         updateCategoriaText();
     }
     
     public void cargarAlertas() {
     	alertas.getItems().clear();
     	for(Alerta alerta : controladorApp.getAlertas()) {
-    		alertas.getItems().add(new CheckBox(alerta.toString()));
+    		CheckBox cb = new CheckBox(alerta.toString());
+    		cb.setUserData(alerta);
+    		alertas.getItems().add(cb);
     	}
     }
 

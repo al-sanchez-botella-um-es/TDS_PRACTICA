@@ -46,6 +46,11 @@ public class RepositorioAlertaJSON implements Repositorio<Alerta> {
     }
     
     @Override
+    public void modify(Alerta alerta) {
+        // No se permite
+    }
+    
+    @Override
     public ObservableList<Alerta> findAll() {
         return alertas;
     }

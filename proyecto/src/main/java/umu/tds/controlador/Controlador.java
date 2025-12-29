@@ -3,6 +3,7 @@ package umu.tds.controlador;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,32 +11,64 @@ import javafx.collections.ObservableList;
 import umu.tds.modelo.Alerta;
 import umu.tds.modelo.Categoria;
 import umu.tds.modelo.Gasto;
+import umu.tds.modelo.Notificacion;
 import umu.tds.repository.Repositorio;
 import umu.tds.repository.impl.RepositorioAlertaJSON;
 import umu.tds.repository.impl.RepositorioCategoriaJSON;
 import umu.tds.repository.impl.RepositorioGastoJSON;
+import umu.tds.repository.impl.RepositorioNotificacionJSON;
 
 public class Controlador {
 	private Repositorio<Gasto> repositorioGasto = RepositorioGastoJSON.getInstance();
 	private Repositorio<Categoria> repositorioCategoria = RepositorioCategoriaJSON.getInstance();
 	private Repositorio<Alerta> repositorioAlerta = RepositorioAlertaJSON.getInstance();
-
+	private Repositorio<Notificacion> repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
+	
 	public Controlador() {
 		this.repositorioGasto = RepositorioGastoJSON.getInstance();
 		this.repositorioCategoria = RepositorioCategoriaJSON.getInstance();
 		this.repositorioAlerta = RepositorioAlertaJSON.getInstance();
+		this.repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
 	}
 	
 	public ObservableList<Gasto> getGastos() {
 	    return repositorioGasto.findAll();
 	}
 	
-	public List<Categoria> getCategorias() {
+	public List<Gasto> getGastosCalendario() {
+	    return repositorioGasto.findAll().stream().toList();
+	}
+	//Calendario por día
+	public List<Gasto> getGastosPorFecha(LocalDate fecha) {
+	    return getGastos().stream()
+	            .filter(g -> g.getFecha().equals(fecha))
+	            .toList();
+	}
+	//Calendario por mes
+	public List<Gasto> getGastosPorMes(Month mes) {
+	    return getGastos().stream()
+	            .filter(g -> g.getFecha().getMonth() == mes)
+	            .toList();
+	}
+	//Servirá para la representación gráfica
+	public Map<Categoria, Double> getGastoTotalPorCategoria() {
+	    return getGastos().stream()
+	            .collect(Collectors.groupingBy(
+	                    Gasto::getCategoria,
+	                    Collectors.summingDouble(Gasto::getCantidad)
+	            ));
+	}
+	
+	public ObservableList<Categoria> getCategorias() {
 	    return repositorioCategoria.findAll();
 	}
 	
 	public List<Alerta> getAlertas() {
 		return repositorioAlerta.findAll();
+	}
+	
+	public ObservableList<Notificacion> getNotificaciones() {
+		return repositorioNotificacion.findAll();
 	}
 	
 	///Métodos referentes a las Historias de Usuario
@@ -57,7 +90,7 @@ public class Controlador {
 	}
 	
 	public void modifyGasto(Gasto gasto) {
-		//repositorioGasto.modify(gasto);
+		repositorioGasto.modify(gasto);
 	}
 	
 	public Categoria addCategoria(String categoriaStr) {
@@ -72,6 +105,10 @@ public class Controlador {
         repositorioCategoria.save(nueva);
         return nueva;
 	}
+	
+	public void addNotificacion(String mensaje) {
+		repositorioNotificacion.save(new Notificacion(mensaje));
+	}
 
 	public Alerta configurarAlerta(String frecuenciaStr, String categoriaStr, double limite) {
 		Alerta.Frecuencia frecuencia = Alerta.Frecuencia.valueOf(frecuenciaStr.toUpperCase());
@@ -83,6 +120,10 @@ public class Controlador {
 		repositorioAlerta.save(alerta);
 		return alerta;
 	}
+	
+	public void removeAlerta(Alerta alerta) {
+		repositorioAlerta.delete(alerta);
+	}
 
 	public void visualizarAlerta() {
 		 
@@ -90,7 +131,11 @@ public class Controlador {
 
 	//comprobar que alertas han saltado / caducado -> stream
 	public void comprobarAlertas() {
-		
+	    for (Alerta alerta : getAlertas()) {
+	        if (alerta.comprobarAlerta(getGastos())) {
+	            addNotificacion("Alerta activada: " + alerta.toString());
+	        }
+	    }
 	}
 
 	public void importarGastos() {

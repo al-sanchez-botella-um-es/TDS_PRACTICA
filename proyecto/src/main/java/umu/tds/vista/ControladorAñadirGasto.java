@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 
@@ -24,7 +25,7 @@ public class ControladorAñadirGasto {
     @FXML private Button add;
     @FXML private Button cancel;
     @FXML private TextField cantidadGasto;
-    @FXML private ComboBox<String> categoriasCreadas;
+    @FXML private ComboBox<Categoria> categoriasCreadas;
     @FXML private DatePicker fechaGasto;
     @FXML private Button newCategoria;
     @FXML private TextField nombreGasto;
@@ -42,7 +43,7 @@ public class ControladorAñadirGasto {
     @FXML
     void addGasto(ActionEvent event) {
     	String nombre = nombreGasto.getText();
-        String categoriaStr = categoriasCreadas.getValue();
+        String categoriaStr = categoriasCreadas.getValue().getNombre();
         String cantidadStr = cantidadGasto.getText();
         LocalDate fecha = fechaGasto.getValue();
         //Comprobamos que se han rellenado todos los campos correctamente
@@ -97,13 +98,8 @@ public class ControladorAñadirGasto {
             if (!nombre.isBlank()) {
             	//Evitamos distinguir entre mayúsculas, minúsculas y tildes
             	String categoriaStr = nombre.trim();
-            	if(categoriasCreadas.getItems().contains(categoriaStr)) {
-            		controladorVentanaPrincipal.mostrarEnTerminal("ERROR: la categoria " + nombre + " ya existe");
-            		return;
-            	}
             	Categoria nueva = controladorApp.addCategoria(categoriaStr);
-            	categoriasCreadas.getItems().add(nueva.getNombre());
-            	categoriasCreadas.getSelectionModel().select(nueva.getNombre());
+            	categoriasCreadas.getSelectionModel().select(nueva);
             	controladorVentanaPrincipal.mostrarEnTerminal("Categoría añadida: " + nombre);
             } else {
             	controladorVentanaPrincipal.mostrarEnTerminal("ERROR: La categoría no puede estar vacía");
@@ -111,15 +107,22 @@ public class ControladorAñadirGasto {
         });
     }
     
-    public void cargarCategorias() {
-    	categoriasCreadas.getItems().clear();
-    	//Categorías predefinidas + las creadas por el usuario
-        categoriasCreadas.getItems().addAll("Alimentación", "Transporte", "Entretenimiento");
-        if(controladorApp != null) {
-	        for(Categoria c : controladorApp.getCategorias()) {
-	            categoriasCreadas.getItems().add(c.getNombre());
-	        }
-        }
+    public void inicializarCategorias() {
+        categoriasCreadas.setItems(controladorApp.getCategorias());
+        categoriasCreadas.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Categoria item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
+        categoriasCreadas.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Categoria item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
     }
 
     @FXML

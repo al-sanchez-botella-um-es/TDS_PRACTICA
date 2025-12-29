@@ -3,9 +3,7 @@ package umu.tds.controlador;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import umu.tds.modelo.Alerta;
@@ -17,12 +15,19 @@ import umu.tds.repository.impl.RepositorioAlertaJSON;
 import umu.tds.repository.impl.RepositorioCategoriaJSON;
 import umu.tds.repository.impl.RepositorioGastoJSON;
 import umu.tds.repository.impl.RepositorioNotificacionJSON;
+import umu.tds.vista.ControladorVentanaPrincipal;
 
 public class Controlador {
 	private Repositorio<Gasto> repositorioGasto = RepositorioGastoJSON.getInstance();
 	private Repositorio<Categoria> repositorioCategoria = RepositorioCategoriaJSON.getInstance();
 	private Repositorio<Alerta> repositorioAlerta = RepositorioAlertaJSON.getInstance();
 	private Repositorio<Notificacion> repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
+	
+	private ControladorVentanaPrincipal controladorVentanaPrincipal;
+	
+	public void setVentanaPrincipal(ControladorVentanaPrincipal v) {
+		this.controladorVentanaPrincipal = v;
+	}
 	
 	public Controlador() {
 		this.repositorioGasto = RepositorioGastoJSON.getInstance();
@@ -35,7 +40,7 @@ public class Controlador {
 	    return repositorioGasto.findAll();
 	}
 	
-	public List<Gasto> getGastosCalendario() {
+	/*public List<Gasto> getGastosCalendario() {
 	    return repositorioGasto.findAll().stream().toList();
 	}
 	//Calendario por día
@@ -49,15 +54,7 @@ public class Controlador {
 	    return getGastos().stream()
 	            .filter(g -> g.getFecha().getMonth() == mes)
 	            .toList();
-	}
-	//Servirá para la representación gráfica
-	public Map<Categoria, Double> getGastoTotalPorCategoria() {
-	    return getGastos().stream()
-	            .collect(Collectors.groupingBy(
-	                    Gasto::getCategoria,
-	                    Collectors.summingDouble(Gasto::getCantidad)
-	            ));
-	}
+	}*/
 	
 	public ObservableList<Categoria> getCategorias() {
 	    return repositorioCategoria.findAll();
@@ -82,6 +79,7 @@ public class Controlador {
 	    }
 		Gasto gasto = new Gasto(nombre, categoria, cantidad, fecha);
 		repositorioGasto.save(gasto);
+		comprobarAlertas(gasto);
 		return gasto;
 	}
 	
@@ -107,7 +105,7 @@ public class Controlador {
 	}
 	
 	public void addNotificacion(String mensaje) {
-		repositorioNotificacion.save(new Notificacion(mensaje));
+		repositorioNotificacion.save(new Notificacion(mensaje, LocalDate.now()));
 	}
 
 	public Alerta configurarAlerta(String frecuenciaStr, String categoriaStr, double limite) {
@@ -130,12 +128,36 @@ public class Controlador {
 	}
 
 	//comprobar que alertas han saltado / caducado -> stream
-	public void comprobarAlertas() {
+	private void comprobarAlertas(Gasto gasto) {
 	    for (Alerta alerta : getAlertas()) {
-	        if (alerta.comprobarAlerta(getGastos())) {
-	            addNotificacion("Alerta activada: " + alerta.toString());
+	        // 1. La alerta debe coincidir en categoría
+	        if (!alerta.coincideCon(gasto)) continue;
+	        // 2. Calcular gasto acumulado según frecuencia
+	        double total = calcularTotal(alerta, gasto.getFecha());
+	        // 3. Si supera el límite -> generar notificación
+	        if (total > alerta.getLimite()) {
+	            String mensaje = "Límite superado en " + alerta.getCategoria().getNombre() +
+	                             " (" + alerta.getFrecuencia() + "): " + total + "€";
+	            repositorioNotificacion.save(new Notificacion(mensaje, LocalDate.now()));
+	            // 5. Avisar a la ventana principal (emergente + panel del día)
+	            if (controladorVentanaPrincipal != null) {
+	            	controladorVentanaPrincipal.mostrarNotificacionEmergente(mensaje);
+	            	controladorVentanaPrincipal.actualizarNotificacionesDelDia();
+	            }
 	        }
 	    }
+	}
+	
+	private double calcularTotal(Alerta alerta, LocalDate fechaGasto) {
+		return getGastos().stream()
+				.filter(g -> g.getCategoria().equals(alerta.getCategoria()))
+				.filter(g -> {
+					return switch (alerta.getFrecuencia()) { 
+						case SEMANAL -> g.getFecha().isAfter(fechaGasto.minusDays(7));
+						case MENSUAL -> g.getFecha().getMonth() == fechaGasto.getMonth() && g.getFecha().getYear() == fechaGasto.getYear();
+						case ANUAL -> g.getFecha().getYear() == fechaGasto.getYear(); }; })
+				.mapToDouble(Gasto::getCantidad)
+				.sum();
 	}
 
 	public void importarGastos() {
@@ -146,7 +168,7 @@ public class Controlador {
 	public List<Gasto> filtrarFecha(LocalDate fechainicio, LocalDate fechafin) {
 		return getGastos().stream()
 				.filter(f -> !f.getFecha().isBefore(fechainicio) && !f.getFecha().isAfter(fechafin))
-				.collect(Collectors.toList());
+				.toList();
 	}
 	
 	///El método cogerá los meses seleccionados en el ComboBox y buscará gastos pertenecientes

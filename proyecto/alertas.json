@@ -1,11 +1,4 @@
 [ {
-  "limite" : 40.0,
-  "Frecuencia" : "MENSUAL",
-  "Categoria" : {
-    "nombre" : "Caprichos"
-  },
-  "CantidadLimite" : 40.0
-}, {
   "limite" : 50.0,
   "Frecuencia" : "ANUAL",
   "Categoria" : {
@@ -19,4 +12,11 @@
     "nombre" : "Utiles"
   },
   "CantidadLimite" : 15.5
+}, {
+  "limite" : 25.0,
+  "Frecuencia" : "SEMANAL",
+  "Categoria" : {
+    "nombre" : "Hosteleria"
+  },
+  "CantidadLimite" : 25.0
 } ]

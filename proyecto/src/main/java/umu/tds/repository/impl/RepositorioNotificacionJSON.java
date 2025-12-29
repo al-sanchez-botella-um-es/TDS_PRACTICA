@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +26,9 @@ public class RepositorioNotificacionJSON implements Repositorio<Notificacion> {
 	
 	private RepositorioNotificacionJSON() {
 		mapper = new ObjectMapper();
-		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		mapper.registerModule(new JavaTimeModule()); // soporte para LocalDate
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		cargar();
 	}
 	
@@ -43,8 +47,7 @@ public class RepositorioNotificacionJSON implements Repositorio<Notificacion> {
 	
 	@Override
 	public void delete(Notificacion n) {
-		notificaciones.remove(n);
-		guardar();
+		// no permitido
 	}
 	
 	@Override
@@ -68,7 +71,7 @@ public class RepositorioNotificacionJSON implements Repositorio<Notificacion> {
 	private void cargar() {
 		if (fichero.exists()) {
 			try {
-				List<Notificacion> lista = mapper.readValue( fichero, new TypeReference<List<Notificacion>>() {} );
+				List<Notificacion> lista = mapper.readValue(fichero, new TypeReference<List<Notificacion>>() {});
 				notificaciones.setAll(lista);
 			} catch (IOException e) {
 				notificaciones.clear();

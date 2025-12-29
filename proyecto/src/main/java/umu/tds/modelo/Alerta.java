@@ -85,6 +85,11 @@ public class Alerta {
 	    this.cantidad = limite;
 	}
 	
+	public boolean coincideCon(Gasto gasto) {	//La alerta pertenece al gasto
+	    return gasto.getCategoria().equals(this.categoria);
+	}
+
+	
 	@Override
     public String toString() {
         return "Alerta → Frecuencia: " + frecuencia +

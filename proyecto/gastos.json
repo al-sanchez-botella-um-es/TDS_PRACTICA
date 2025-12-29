@@ -33,4 +33,11 @@
   },
   "Cantidad" : 29.99,
   "Fecha" : "29-11-2025"
+}, {
+  "nombre" : "almuerzo girls",
+  "Categoria" : {
+    "nombre" : "Hosteleria"
+  },
+  "Cantidad" : 26.0,
+  "Fecha" : "29-12-2025"
 } ]

@@ -17,9 +17,11 @@ public class Notificacion {
 	@JsonProperty("Fecha")
 	private LocalDate fecha;
 	
-	public Notificacion(String mensaje) {
+	public Notificacion() {};
+	
+	public Notificacion(String mensaje, LocalDate fecha) {
 		this.mensaje = mensaje;
-		this.fecha = LocalDate.now();
+		this.fecha = fecha;
 	}
 	
 	public String getMensaje() {
@@ -28,5 +30,9 @@ public class Notificacion {
 	
 	public LocalDate getFecha() {
 		return fecha;
+	}
+	
+	@Override public String toString() {
+		return fecha + " - " + mensaje;
 	}
 }

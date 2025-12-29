@@ -4,11 +4,13 @@ package umu.tds.vista;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -22,6 +24,7 @@ import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.model.Calendar.Style;*/
+import umu.tds.modelo.Notificacion;
 
 public class ControladorVentanaPrincipal {
 	@FXML private Tab ventanaPrincipal; //pestaña inicial
@@ -46,18 +49,32 @@ public class ControladorVentanaPrincipal {
 
     public void setControladorApp(Controlador controlador) {
         this.controladorApp = controlador;
+        controladorApp.setVentanaPrincipal(this);	//necesario para que salten las notificaciones
     }
     
     public void mostrarEnTerminal(String texto) {
         terminal.appendText(texto + "\n");
     }
     
-    ///Correspondientes a las alertas
-    /*public void mostrarNotificacion(String mensaje) {
-        Text texto = new Text(mensaje);
-        texto.setStyle("-fx-fill: #333; -fx-font-size: 13px;");
-        notif.getChildren().add(texto);
-    }*/
+    //Correspondiente a las alertas -> notificaciones
+    public void mostrarNotificacionEmergente(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("¡Alerta activada!");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+    
+    public void actualizarNotificacionesDelDia() {
+        notificaciones.getItems().clear();
+        LocalDate hoy = LocalDate.now();
+        for (Notificacion n : controladorApp.getNotificaciones()) {
+            if (n.getFecha().equals(hoy)) {
+                notificaciones.getItems().add(n.getMensaje());
+            }
+        }
+    }
+
 
     private void abrirPestaña(String titulo, String rutaFXML) {
     	try {

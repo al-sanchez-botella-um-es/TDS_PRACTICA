@@ -133,26 +133,6 @@ import javafx.scene.control.ScrollPane;
 	        categoriaCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
 	        fechaCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
 	        
-	        /*
-	        Categoria utiles = new Categoria("Útiles");
-	        Categoria ropa = new Categoria("Kleidung");
-
-	        Gasto g1 = new Gasto(
-	                "Zahnpasta",
-	                utiles,
-	                3.0,
-	                LocalDate.of(2024, 12, 14)
-	        );
-
-	        Gasto g2 = new Gasto(
-	                "Hosen",
-	                ropa,
-	                100.0,
-	                LocalDate.of(2024, 11, 1)
-	        );
-
-	        listaFiltrado.getItems().addAll(g1, g2);
-	        */
 	    }
 	}
 	

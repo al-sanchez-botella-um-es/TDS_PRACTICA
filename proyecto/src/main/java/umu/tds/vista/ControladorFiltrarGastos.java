@@ -2,15 +2,23 @@
 	
 	import umu.tds.controlador.Controlador;
 	import umu.tds.modelo.Categoria;
-	
-	import java.net.URL;
-	import java.util.ResourceBundle;
-	
-	import javafx.event.ActionEvent;
+	import umu.tds.modelo.Gasto;
+
+
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 	import javafx.fxml.FXML;
 	import javafx.scene.control.CheckBox;
 	import javafx.scene.control.DatePicker;
-	import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 	import javafx.scene.control.ToggleButton;
 	import javafx.scene.layout.GridPane;
 	import javafx.scene.layout.VBox;
@@ -29,8 +37,11 @@
 	    @FXML private Text filtrar;
 	    @FXML private DatePicker desdeDatePicker;
 	    @FXML private DatePicker hastaDatePicker;
+	    @FXML private ListView<Gasto> listaFiltrado;
 	    private ControladorVentanaPrincipal controladorVentanaPrincipal;
 	    private Controlador controladorApp;
+	    private final ObservableList<Gasto> todosGastos = FXCollections.observableArrayList();
+
 	
 	    public void setControladorPrincipal(ControladorVentanaPrincipal controlador) {
 	        this.controladorVentanaPrincipal = controlador;
@@ -38,11 +49,48 @@
 	    
 	    public void setControladorApp(Controlador controlador) {
 	        this.controladorApp = controlador;
+	        
+	        todosGastos.setAll(controladorApp.getGastos());
+	        listaFiltrado.setItems(FXCollections.observableArrayList(todosGastos));
 	    }
+	    
+	    
+	    private void aplicarFiltros() {
+	        ObservableList<Gasto> filtrados = FXCollections.observableArrayList(todosGastos);
+
+	        // Filter Kategorie
+	        if (categoriaCheckBox.isSelected()) {
+	            List<String> categoriasSeleccionadas = categoriaVBox.getChildren().stream()
+	                    .filter(node -> node instanceof CheckBox cb && cb.isSelected())
+	                    .map(node -> ((CheckBox) node).getText())
+	                    .toList();
+
+	            filtrados = filtrados.stream()
+	                    .filter(g -> categoriasSeleccionadas.contains(g.getCategoria().getNombre()))
+	                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+	        }
+
+	        // Filter Fecha
+	        if (fechaCheckBox.isSelected()) {
+	            LocalDate desde = desdeDatePicker.getValue();
+	            LocalDate hasta = hastaDatePicker.getValue();
+
+	            if (desde != null && hasta != null) {
+	                filtrados = filtrados.stream()
+	                        .filter(g -> !g.getFecha().isBefore(desde) && !g.getFecha().isAfter(hasta))
+	                        .collect(Collectors.toCollection(FXCollections::observableArrayList));
+	            }
+	        }
+
+	        listaFiltrado.setItems(filtrados);
+	    }
+
 	        
 	    @FXML
 	    private void aplicarFiltradoDeGastos(ActionEvent event) {
+	        aplicarFiltros();
 	    }
+
 	    
 	    public void cargarCategorias() {
 	        categoriaVBox.getChildren().clear();
@@ -84,6 +132,27 @@
 	        //El botón debe reflejar visualmente que hay un filtro aplicado o no y cuál
 	        categoriaCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
 	        fechaCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
+	        
+	        /*
+	        Categoria utiles = new Categoria("Útiles");
+	        Categoria ropa = new Categoria("Kleidung");
+
+	        Gasto g1 = new Gasto(
+	                "Zahnpasta",
+	                utiles,
+	                3.0,
+	                LocalDate.of(2024, 12, 14)
+	        );
+
+	        Gasto g2 = new Gasto(
+	                "Hosen",
+	                ropa,
+	                100.0,
+	                LocalDate.of(2024, 11, 1)
+	        );
+
+	        listaFiltrado.getItems().addAll(g1, g2);
+	        */
 	    }
 	}
 	

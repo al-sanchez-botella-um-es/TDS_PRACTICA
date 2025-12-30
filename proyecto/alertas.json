@@ -1,11 +1,4 @@
 [ {
-  "limite" : 50.0,
-  "Frecuencia" : "ANUAL",
-  "Categoria" : {
-    "nombre" : "Entretenimiento"
-  },
-  "CantidadLimite" : 50.0
-}, {
   "limite" : 15.5,
   "Frecuencia" : "SEMANAL",
   "Categoria" : {

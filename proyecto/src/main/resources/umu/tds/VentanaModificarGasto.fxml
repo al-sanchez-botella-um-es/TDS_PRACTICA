@@ -2,16 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.vista.ControladorModificarGasto">
    <children>
-      <TableView fx:id="tablaModificarGastos" layoutX="109.0" layoutY="26.0" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="20.0">
+      <TableView fx:id="tablaModificarGastos" layoutX="109.0" layoutY="26.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columns>
           <TableColumn fx:id="TablaNombre" prefWidth="50.0" text="Nombre" />
             <TableColumn fx:id="TablaCategoria" prefWidth="50.0" text="Categoria" />
@@ -22,15 +23,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <BorderPane prefHeight="400.0" prefWidth="115.0">
-         <top>
-            <Label prefHeight="128.0" prefWidth="123.0" style="-fx-font-weight: bold;" text="MODIFICAR" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </Label>
-         </top>
-      </BorderPane>
       <HBox layoutX="227.0" layoutY="346.0" prefHeight="40.0" prefWidth="235.0" spacing="30.0">
          <children>
             <Button fx:id="BotonModificar" mnemonicParsing="false" onAction="#modificarGasto" prefHeight="35.0" prefWidth="81.0" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-weight: bold;" text="Modificar" />
@@ -40,5 +32,14 @@
             <Insets left="20.0" right="20.0" />
          </padding>
       </HBox>
+      <VBox alignment="CENTER" prefHeight="230.0" prefWidth="119.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Modificar Gasto" textAlignment="CENTER" wrappingWidth="115.32696533203125">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

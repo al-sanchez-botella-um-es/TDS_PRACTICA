@@ -161,7 +161,7 @@ public class ControladorVentanaPrincipal {
 
     @FXML
     void crearCuentaCompartida(ActionEvent event) {
-    	abrirPestaña("Cuenta Compartida", "/umu/tds/VentanaCuentaCompartida.fxml");
+    	abrirPestaña("Crear Cuenta Compartida", "/umu/tds/VentanaCuentaCompartida.fxml");
     }
 
     @FXML
@@ -174,7 +174,7 @@ public class ControladorVentanaPrincipal {
         tabPane.getTabs().clear();
         mostrarEnTerminal("Has vuelto a la ventana principal.");
     }
-     
+    
     @FXML
     void salirDeLaAplicacion(ActionEvent event) {
     	System.exit(0);

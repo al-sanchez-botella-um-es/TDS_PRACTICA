@@ -40,22 +40,6 @@ public class Controlador {
 	    return repositorioGasto.findAll();
 	}
 	
-	/*public List<Gasto> getGastosCalendario() {
-	    return repositorioGasto.findAll().stream().toList();
-	}
-	//Calendario por día
-	public List<Gasto> getGastosPorFecha(LocalDate fecha) {
-	    return getGastos().stream()
-	            .filter(g -> g.getFecha().equals(fecha))
-	            .toList();
-	}
-	//Calendario por mes
-	public List<Gasto> getGastosPorMes(Month mes) {
-	    return getGastos().stream()
-	            .filter(g -> g.getFecha().getMonth() == mes)
-	            .toList();
-	}*/
-	
 	public ObservableList<Categoria> getCategorias() {
 	    return repositorioCategoria.findAll();
 	}
@@ -67,6 +51,37 @@ public class Controlador {
 	public ObservableList<Notificacion> getNotificaciones() {
 		return repositorioNotificacion.findAll();
 	}
+	
+	///Métodos auxiliares
+	private double calcularTotal(Alerta alerta, LocalDate fechaGasto) {
+		return getGastos().stream()
+				.filter(g -> g.getCategoria().equals(alerta.getCategoria()))
+				.filter(g -> {
+					return switch (alerta.getFrecuencia()) { 
+						case SEMANAL -> g.getFecha().isAfter(fechaGasto.minusDays(7));
+						case MENSUAL -> g.getFecha().getMonth() == fechaGasto.getMonth() && g.getFecha().getYear() == fechaGasto.getYear();
+						case ANUAL -> g.getFecha().getYear() == fechaGasto.getYear(); }; })
+				.mapToDouble(Gasto::getCantidad)
+				.sum();
+	}
+	
+	/*public List<Gasto> getGastosCalendario() {
+	    return repositorioGasto.findAll().stream().toList();
+	}
+	
+	//Calendario por día
+	public List<Gasto> getGastosPorFecha(LocalDate fecha) {
+	    return getGastos().stream()
+	            .filter(g -> g.getFecha().equals(fecha))
+	            .toList();
+	}
+	
+	//Calendario por mes
+	public List<Gasto> getGastosPorMes(Month mes) {
+	    return getGastos().stream()
+	            .filter(g -> g.getFecha().getMonth() == mes)
+	            .toList();
+	}*/
 	
 	///Métodos referentes a las Historias de Usuario
 	public Gasto addGasto(String nombre, String categoriaStr, double cantidad, LocalDate fecha) {
@@ -123,10 +138,6 @@ public class Controlador {
 		repositorioAlerta.delete(alerta);
 	}
 
-	public void visualizarAlerta() {
-		 
-	}
-
 	//comprobar que alertas han saltado / caducado -> stream
 	private void comprobarAlertas(Gasto gasto) {
 	    for (Alerta alerta : getAlertas()) {
@@ -147,18 +158,6 @@ public class Controlador {
 	        }
 	    }
 	}
-	
-	private double calcularTotal(Alerta alerta, LocalDate fechaGasto) {
-		return getGastos().stream()
-				.filter(g -> g.getCategoria().equals(alerta.getCategoria()))
-				.filter(g -> {
-					return switch (alerta.getFrecuencia()) { 
-						case SEMANAL -> g.getFecha().isAfter(fechaGasto.minusDays(7));
-						case MENSUAL -> g.getFecha().getMonth() == fechaGasto.getMonth() && g.getFecha().getYear() == fechaGasto.getYear();
-						case ANUAL -> g.getFecha().getYear() == fechaGasto.getYear(); }; })
-				.mapToDouble(Gasto::getCantidad)
-				.sum();
-	}
 
 	public void importarGastos() {
 		
@@ -171,8 +170,8 @@ public class Controlador {
 				.toList();
 	}
 	
-	///El método cogerá los meses seleccionados en el ComboBox y buscará gastos pertenecientes
-	/// a esos meses
+	//El método cogerá los meses seleccionados en el ComboBox y buscará gastos pertenecientes
+	// a esos meses
 	public List<Gasto> filtrarFechaPorMeses(Month... mes) {
 	    Set<Month> listaMeses = Set.of(mes); 	//convertir para búsqueda rápida
 		return getGastos().stream()
@@ -180,13 +179,13 @@ public class Controlador {
 				.toList();
 	}
 
-	public List<Categoria> filtrarCategoria(Categoria categoria) {
-		return getCategorias().stream()
-				.filter(c -> c.getNombre().equals(categoria.getNombre()))
+	public List<Gasto> filtrarCategoria(List<String> categorias) {
+		return getGastos().stream()
+				.filter(g -> categorias.contains(g.getCategoria().getNombre()))
 				.toList();
 	}
 	
-	/*public List<Gasto> filtrarGastos(
+	/*public List<Gasto> filtrarGastos(		///Esto era una forma de hacerlo separado
 	        Set<Month> meses,               // meses seleccionados (puede ser vacío o null)
 	        LocalDate fechaInicio,          // fecha inicial (puede ser null)
 	        LocalDate fechaFin,             // fecha final (puede ser null)

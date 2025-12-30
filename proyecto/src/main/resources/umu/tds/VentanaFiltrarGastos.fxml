@@ -20,7 +20,7 @@
       <SplitPane dividerPositions="0.35" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">        <items>
  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: lightblue;">               
  <children>
-                  <VBox fx:id="botones" alignment="TOP_CENTER" prefHeight="315.0" prefWidth="258.0" spacing="20.0" style="-fx-background-color: lightblue;">
+                  <VBox fx:id="botones" alignment="TOP_CENTER" prefHeight="315.0" prefWidth="233.0" spacing="20.0" style="-fx-background-color: lightblue;">
                      <children>
                         <Label style="-fx-font-weight: bold;" text="Filtrado de Gastos por:" />
                         <CheckBox fx:id="categoriaCheckBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="187.0" text="Categoria" />
@@ -58,7 +58,7 @@
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="385.0" prefWidth="400.0" style="-fx-background-color: lightblue;">               <children>
-                 <ListView fx:id="listaFiltrado" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                 <ListView fx:id="listaFiltrado" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
         </items>

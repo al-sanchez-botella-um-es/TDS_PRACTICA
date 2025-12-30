@@ -40,11 +40,4 @@
   },
   "Cantidad" : 26.0,
   "Fecha" : "29-12-2025"
-}, {
-  "nombre" : "zahnpasta",
-  "Categoria" : {
-    "nombre" : "Utiles"
-  },
-  "Cantidad" : 16.0,
-  "Fecha" : "30-12-2025"
 } ]

@@ -85,7 +85,7 @@ public class ControladorModificarGasto {
     
     @FXML
     void modificarGasto(ActionEvent event) {
-
+        // CRÍTICO: Usamos el TableView para obtener la selección.
         Gasto gastoSeleccionado = tablaModificarGastos.getSelectionModel().getSelectedItem();
         if (gastoSeleccionado != null) {
             try {

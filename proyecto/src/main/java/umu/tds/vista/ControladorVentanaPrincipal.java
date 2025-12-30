@@ -216,7 +216,7 @@ public class ControladorVentanaPrincipal {
 
     @FXML
     void mostrarHistorialNotificaciones(ActionEvent event) {
-	    /*for (Tab tab : tabPane.getTabs()) {
+	    for (Tab tab : tabPane.getTabs()) {
 	        if (tab.getText().equals("Historial")) {
 	            tabPane.getSelectionModel().select(tab);
 	            return;
@@ -225,15 +225,13 @@ public class ControladorVentanaPrincipal {
 
 	    ListView<String> lista = new ListView<>();
 	    controladorApp.getNotificaciones().forEach(n -> {
-	        lista.getItems().add(n.getFecha() + " - " + n.getMensaje());
+	        lista.getItems().add(n.getFecha() + "  -  " + n.getMensaje());
 	    });
-	    Tab tabHistorial = new Tab("Historial");
+	    Tab tabHistorial = new Tab("Historial de Notificaciones");
 	    tabHistorial.setClosable(true);
 	    tabHistorial.setContent(lista);
 	    tabPane.getTabs().add(tabHistorial);
 	    tabPane.getSelectionModel().select(tabHistorial);
-
-	    mostrarEnTerminal("Historial de notificaciones abierto.");*/
     }
 
     @FXML

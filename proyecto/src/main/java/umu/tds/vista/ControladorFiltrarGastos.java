@@ -63,6 +63,7 @@ public class ControladorFiltrarGastos {
 
             if (!categoriasSeleccionadas.isEmpty()) {
             	filtrados = controladorApp.filtrarCategoria(categoriasSeleccionadas);
+            	controladorVentanaPrincipal.mostrarEnTerminal("Filtrado de Gastos por Categoria.");
             }
         }
 
@@ -73,6 +74,7 @@ public class ControladorFiltrarGastos {
 
             if (desde != null && hasta != null) {
                 filtrados = controladorApp.filtrarFecha(desde, hasta);
+                controladorVentanaPrincipal.mostrarEnTerminal("Filtrado de Gastos por Fecha.");
             }
         }
         listaFiltrado.setItems(FXCollections.observableArrayList(filtrados));

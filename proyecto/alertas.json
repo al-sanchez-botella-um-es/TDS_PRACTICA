@@ -19,4 +19,11 @@
     "nombre" : "Hosteleria"
   },
   "CantidadLimite" : 25.0
+}, {
+  "limite" : 500.0,
+  "Frecuencia" : "SEMANAL",
+  "Categoria" : {
+    "nombre" : "Caprichos"
+  },
+  "CantidadLimite" : 500.0
 } ]

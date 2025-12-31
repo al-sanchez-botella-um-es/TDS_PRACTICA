@@ -9,21 +9,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.vista.ControladorCuentaCompartida">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.vista.ControladorCuentaCompartida">
    <children>
-      <VBox alignment="CENTER" prefHeight="210.0" prefWidth="109.0" style="-fx-font-weight: bold;">
+      <HBox prefHeight="400.0" prefWidth="134.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Cuenta Compartida" textAlignment="CENTER" wrappingWidth="120.49919891357422">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
+            <VBox prefHeight="344.0" prefWidth="134.0">
+               <children>
+                  <Label alignment="TOP_CENTER" prefHeight="47.0" prefWidth="135.0" style="-fx-font-weight: bold;" text="CUENTA " textAlignment="CENTER">
+                     <padding>
+                        <Insets top="30.0" />
+                     </padding>
+                  </Label>
+                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="138.0" style="-fx-font-weight: bold;" text="COMPARTIDA" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
-      <HBox layoutX="134.0" layoutY="28.0" prefHeight="58.0" prefWidth="467.0">
+      </HBox>
+      <HBox layoutX="134.0" layoutY="28.0" prefHeight="79.0" prefWidth="467.0">
          <children>
             <VBox prefHeight="79.0" prefWidth="120.0">
                <children>
@@ -48,7 +52,7 @@
             </VBox>
          </children>
       </HBox>
-      <TableView fx:id="tablaCuentaCompartida" layoutX="124.8" layoutY="156.8" prefHeight="233.0" prefWidth="452.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="157.0">
+      <TableView fx:id="tablaCuentaCompartida" layoutX="134.0" layoutY="141.0" prefHeight="237.0" prefWidth="442.0">
         <columns>
           <TableColumn fx:id="NombrePersonaTabla" prefWidth="75.0" text="Nombre" />
             <TableColumn fx:id="TotalPersonaTabla" prefWidth="75.0" text="Total" />
@@ -58,7 +62,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <HBox layoutX="134.0" layoutY="77.0" prefHeight="73.0" prefWidth="442.0">
+      <HBox layoutX="134.0" layoutY="77.0" prefHeight="86.0" prefWidth="442.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>

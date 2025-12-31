@@ -8,11 +8,14 @@ import java.util.Set;
 import javafx.collections.ObservableList;
 import umu.tds.modelo.Alerta;
 import umu.tds.modelo.Categoria;
+import umu.tds.modelo.CuentaCompartida;
 import umu.tds.modelo.Gasto;
 import umu.tds.modelo.Notificacion;
+import umu.tds.modelo.Participante;
 import umu.tds.repository.Repositorio;
 import umu.tds.repository.impl.RepositorioAlertaJSON;
 import umu.tds.repository.impl.RepositorioCategoriaJSON;
+import umu.tds.repository.impl.RepositorioCuentaCompartidaJSON;
 import umu.tds.repository.impl.RepositorioGastoJSON;
 import umu.tds.repository.impl.RepositorioNotificacionJSON;
 import umu.tds.vista.ControladorVentanaPrincipal;
@@ -22,7 +25,8 @@ public class Controlador {
 	private Repositorio<Categoria> repositorioCategoria = RepositorioCategoriaJSON.getInstance();
 	private Repositorio<Alerta> repositorioAlerta = RepositorioAlertaJSON.getInstance();
 	private Repositorio<Notificacion> repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
-	
+	private Repositorio<Gasto> repositorioCuentaCompartida = RepositorioCuentaCompartidaJSON.getInstance();
+	private CuentaCompartida cuentaActual;
 	private ControladorVentanaPrincipal controladorVentanaPrincipal;
 	
 	public void setVentanaPrincipal(ControladorVentanaPrincipal v) {
@@ -34,6 +38,7 @@ public class Controlador {
 		this.repositorioCategoria = RepositorioCategoriaJSON.getInstance();
 		this.repositorioAlerta = RepositorioAlertaJSON.getInstance();
 		this.repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
+		this.cuentaActual = new CuentaCompartida();
 	}
 	
 	public ObservableList<Gasto> getGastos() {
@@ -51,7 +56,19 @@ public class Controlador {
 	public ObservableList<Notificacion> getNotificaciones() {
 		return repositorioNotificacion.findAll();
 	}
-	
+	public CuentaCompartida getCuentaCompartida() {
+        return this.cuentaActual;
+    }
+	public void registrarGastoCompartido(String nombreParticipante, double cantidad) {
+        for (Participante p : cuentaActual.getParticipantes()) {
+            if (p.getNombre().equals(nombreParticipante)) {
+                // Sumamos lo que ha pagado a su saldo actual
+                p.setSaldo(p.getSaldo() + cantidad);
+                break;
+            }
+        }
+    }
+
 	///Métodos auxiliares
 	private double calcularTotal(Alerta alerta, LocalDate fechaGasto) {
 		return getGastos().stream()
@@ -98,6 +115,21 @@ public class Controlador {
 		return gasto;
 	}
 	
+	public void addGastoParticipante(String nombre, double cantidad) {
+		for (Participante p : cuentaActual.getParticipantes()) {
+	        if (p.getNombre().equals(nombre)) {
+	            // 2. Le sumamos el gasto a lo que ya llevaba pagado
+	            double nuevoSaldo = p.getSaldo() + cantidad;
+	            p.setSaldo(nuevoSaldo);
+	            
+	            
+	             Gasto g = new Gasto("Gasto compartido: " + nombre, cantidad);
+	             repositorioCuentaCompartida.save(g);
+	            break;
+	        }
+	    }
+	}
+
 	public void removeGasto(Gasto gasto) {
 		repositorioGasto.delete(gasto);
 	}

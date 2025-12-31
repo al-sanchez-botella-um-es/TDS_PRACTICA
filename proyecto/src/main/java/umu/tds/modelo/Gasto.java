@@ -32,6 +32,11 @@ public class Gasto {
 		this.cantidad = cantidad;
 		this.fecha = fecha;
 	}
+	//esto se usa para la cuenta compartida
+	public Gasto(String nombre, Double cantidad) {
+		this.nombreGasto = nombre;
+		this.cantidad = cantidad;
+	}
 	
 	//A parte de necesitar los métodos get(), incluiremos los métodos set()
 	// para los updates de los gastos

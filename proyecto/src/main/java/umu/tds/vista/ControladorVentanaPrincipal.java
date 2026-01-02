@@ -113,6 +113,7 @@ public class ControladorVentanaPrincipal {
             	((ControladorFiltrarGastos) controlador).setControladorPrincipal(this);
             	((ControladorFiltrarGastos) controlador).setControladorApp(controladorApp);
             	((ControladorFiltrarGastos) controlador).cargarCategorias();
+            	((ControladorFiltrarGastos) controlador).getMeses();
             }
             
             if (controlador instanceof ControladorAlertas) {

@@ -37,6 +37,10 @@ public class ControladorFiltrarGastos {
     @FXML private DatePicker desdeDatePicker;
     @FXML private DatePicker hastaDatePicker;
     @FXML private ListView<Gasto> listaFiltrado;
+    @FXML private CheckBox mesesCheckBox;
+    @FXML private ScrollPane mesesScrollPane;
+    @FXML private VBox mesesVBox;
+    
     private ControladorVentanaPrincipal controladorVentanaPrincipal;
     private Controlador controladorApp;
     private final ObservableList<Gasto> todosGastos = FXCollections.observableArrayList();
@@ -85,6 +89,7 @@ public class ControladorFiltrarGastos {
         aplicarFiltros();
     }
     
+
     public void cargarCategorias() {
         categoriaVBox.getChildren().clear();
         //Si se activa la opción de Categoría, se mostrarán las categorías registradas en el sistema
@@ -95,6 +100,27 @@ public class ControladorFiltrarGastos {
         }
     }
     
+   
+    
+    public void getMeses() {
+        mesesVBox.getChildren().clear();
+
+        String[] meses = {
+            "Enero", "Febrero", "Marzo", "Abril",
+            "Mayo", "Junio", "Julio", "Agosto",
+            "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        };
+
+        for (String mes : meses) {
+            CheckBox check = new CheckBox(mes);
+            check.selectedProperty().addListener(
+                (obs, oldVal, newVal) -> filtrarGastos.setSelected(false)
+            );
+            mesesVBox.getChildren().add(check);
+        }
+    }
+
+    
     @FXML
     void initialize() {
         assert categoriaScrollPane != null : "fx:id=\"CategoriaScrollPane\" was not injected: check your FXML file 'VentanaFiltrarGastos.fxml'.";
@@ -104,10 +130,16 @@ public class ControladorFiltrarGastos {
         assert fechaCheckBox != null : "fx:id=\"fechaCeckBox\" was not injected: check your FXML file 'VentanaFiltrarGastos.fxml'.";
         assert filtrar != null : "fx:id=\"filtrar\" was not injected: check your FXML file 'VentanaFiltrarGastos.fxml'.";
         assert fechaGridPane != null : "fx:id=\"fechaGridPane\" was not injected: check your FXML file 'VentanaFiltrarGastos.fxml'.";
+        assert mesesCheckBox != null : "fx:id=\"mesesCheckBox\" was not injected: check your FXML file 'VentanaFiltrarGastos.fxml'.";
+        assert mesesScrollPane != null : "fx:id=\"mesesScrollPane\" was not injected: check your FXML file 'VentanaFiltrarGastos.fxml'.";
+        
+        		
         
         //Inicialmente, el ScrollPane de categorías y el GridPane de fecha están ocultos
         categoriaScrollPane.setVisible(false);
         categoriaScrollPane.setManaged(false);
+        mesesScrollPane.setVisible(false);
+        mesesScrollPane.setManaged(false);
         fechaGridPane.setVisible(false);
         fechaGridPane.setManaged(false);
 
@@ -116,6 +148,10 @@ public class ControladorFiltrarGastos {
             categoriaScrollPane.setVisible(newVal);
             categoriaScrollPane.setManaged(newVal);
         });
+        mesesCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+			mesesScrollPane.setVisible(newVal);
+			mesesScrollPane.setManaged(newVal);
+		});
         fechaCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
 			fechaGridPane.setVisible(newVal);
 			fechaGridPane.setManaged(newVal);
@@ -123,6 +159,7 @@ public class ControladorFiltrarGastos {
         
         //El botón debe reflejar visualmente que hay un filtro aplicado o no y cuál
         categoriaCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
+        mesesCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
         fechaCheckBox.selectedProperty().addListener((o, ov, nv) -> filtrarGastos.setSelected(false));
     }
 }

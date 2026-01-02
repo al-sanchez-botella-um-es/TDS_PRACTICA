@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import umu.tds.modelo.Alerta;
@@ -217,7 +218,7 @@ public class Controlador {
 				.toList();
 	}
 	
-	/*public List<Gasto> filtrarGastos(		///Esto era una forma de hacerlo separado
+	public List<Gasto> filtrarGastos(		///Esto era una forma de hacerlo separado
 	        Set<Month> meses,               // meses seleccionados (puede ser vacío o null)
 	        LocalDate fechaInicio,          // fecha inicial (puede ser null)
 	        LocalDate fechaFin,             // fecha final (puede ser null)
@@ -236,7 +237,7 @@ public class Controlador {
 	                return true;
 	            })
 	            .collect(Collectors.toList());
-	}*/
+	}
 	
-	//public List<Gasto> filtrarCombinacion() {}
+	//public List<Gasto> filtrarCombinacion() {	}
 }

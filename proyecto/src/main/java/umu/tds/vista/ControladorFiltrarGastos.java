@@ -7,7 +7,10 @@ import umu.tds.modelo.Gasto;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -41,6 +44,12 @@ public class ControladorFiltrarGastos {
     @FXML private ScrollPane mesesScrollPane;
     @FXML private VBox mesesVBox;
     
+    
+    @FXML
+    private void aplicarFiltradoDeGastos(ActionEvent event) {
+        aplicarFiltros();
+    }
+    
     private ControladorVentanaPrincipal controladorVentanaPrincipal;
     private Controlador controladorApp;
     private final ObservableList<Gasto> todosGastos = FXCollections.observableArrayList();
@@ -55,40 +64,75 @@ public class ControladorFiltrarGastos {
         this.controladorVentanaPrincipal = controlador;
     }
     
-    private void aplicarFiltros() {
-    	List<Gasto> filtrados = controladorApp.getGastos();
-    	//Delegamos la funcionalidad en el controlador
-        // Filter Categoria
-        if (categoriaCheckBox.isSelected()) {
-            List<String> categoriasSeleccionadas = categoriaVBox.getChildren().stream()
-                    .filter(node -> node instanceof CheckBox cb && cb.isSelected())
-                    .map(node -> ((CheckBox) node).getText())
-                    .toList();
-
-            if (!categoriasSeleccionadas.isEmpty()) {
-            	filtrados = controladorApp.filtrarCategoria(categoriasSeleccionadas);
-            	controladorVentanaPrincipal.mostrarEnTerminal("Filtrado de Gastos por Categoria.");
-            }
-        }
-
-        // Filter Fecha
-        if (fechaCheckBox.isSelected()) {
-            LocalDate desde = desdeDatePicker.getValue();
-            LocalDate hasta = hastaDatePicker.getValue();
-
-            if (desde != null && hasta != null) {
-                filtrados = controladorApp.filtrarFecha(desde, hasta);
-                controladorVentanaPrincipal.mostrarEnTerminal("Filtrado de Gastos por Fecha.");
-            }
-        }
-        listaFiltrado.setItems(FXCollections.observableArrayList(filtrados));
-    }
-        
-    @FXML
-    private void aplicarFiltradoDeGastos(ActionEvent event) {
-        aplicarFiltros();
+    private java.time.Month mesFromTexto(String texto) {
+        return switch (texto) {
+            case "Enero" -> java.time.Month.JANUARY;
+            case "Febrero" -> java.time.Month.FEBRUARY;
+            case "Marzo" -> java.time.Month.MARCH;
+            case "Abril" -> java.time.Month.APRIL;
+            case "Mayo" -> java.time.Month.MAY;
+            case "Junio" -> java.time.Month.JUNE;
+            case "Julio" -> java.time.Month.JULY;
+            case "Agosto" -> java.time.Month.AUGUST;
+            case "Septiembre" -> java.time.Month.SEPTEMBER;
+            case "Octubre" -> java.time.Month.OCTOBER;
+            case "Noviembre" -> java.time.Month.NOVEMBER;
+            case "Diciembre" -> java.time.Month.DECEMBER;
+            default -> throw new IllegalArgumentException("Mes desconocido: " + texto);
+        };
     }
     
+    private void aplicarFiltros() {
+        List<Gasto> filtrados = controladorApp.getGastos();
+
+        // Filter Categoria
+        Set<Categoria> categoriasSeleccionadas = Set.of();
+        if (categoriaCheckBox.isSelected()) {
+            categoriasSeleccionadas = categoriaVBox.getChildren().stream()
+                    .filter(node -> node instanceof CheckBox cb && cb.isSelected())
+                    .map(node -> controladorApp.getCategorias().stream()
+                            .filter(c -> c.getNombre().equals(((CheckBox) node).getText()))
+                            .findFirst().orElse(null))
+                    .filter(c -> c != null)
+                    .collect(Collectors.toSet());
+
+            // Nada seleccionado -> lista vacía
+            if (categoriasSeleccionadas.isEmpty()) {
+                listaFiltrado.setItems(FXCollections.observableArrayList());
+                return;
+            }
+        }
+
+        // Filtro Meses
+        Set<Month> mesesSeleccionados = Set.of();
+        if (mesesCheckBox.isSelected()) {
+            mesesSeleccionados = mesesVBox.getChildren().stream()
+                    .filter(node -> node instanceof CheckBox cb && cb.isSelected())
+                    .map(node -> mesFromTexto(((CheckBox) node).getText()))
+                    .collect(Collectors.toSet());
+
+            // Nada seleccionado -> lista vacía
+            if (mesesSeleccionados.isEmpty()) {
+                listaFiltrado.setItems(FXCollections.observableArrayList());
+                return;
+            }
+        }
+
+        // Filtro Fecha
+        LocalDate desde = fechaCheckBox.isSelected() ? desdeDatePicker.getValue() : null;
+        LocalDate hasta = fechaCheckBox.isSelected() ? hastaDatePicker.getValue() : null;
+
+        // LLAMADA AL CONTROLADOR PARA FILTRAR - combinado
+        filtrados = controladorApp.filtrarGastos(
+                mesesSeleccionados,
+                desde,
+                hasta,
+                categoriasSeleccionadas
+        );
+
+        listaFiltrado.setItems(FXCollections.observableArrayList(filtrados));
+    }
+
 
     public void cargarCategorias() {
         categoriaVBox.getChildren().clear();
@@ -101,7 +145,6 @@ public class ControladorFiltrarGastos {
     }
     
    
-    
     public void getMeses() {
         mesesVBox.getChildren().clear();
 
@@ -147,11 +190,30 @@ public class ControladorFiltrarGastos {
         categoriaCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             categoriaScrollPane.setVisible(newVal);
             categoriaScrollPane.setManaged(newVal);
+
+            if (newVal) {
+                // Alle Kategorie-Checkboxen zurücksetzen
+                categoriaVBox.getChildren().forEach(node -> {
+                    if (node instanceof CheckBox cb) {
+                        cb.setSelected(false);
+                    }
+                });
+            }
         });
+
         mesesCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-			mesesScrollPane.setVisible(newVal);
-			mesesScrollPane.setManaged(newVal);
-		});
+            mesesScrollPane.setVisible(newVal);
+            mesesScrollPane.setManaged(newVal);
+
+            if (newVal) {
+                mesesVBox.getChildren().forEach(node -> {
+                    if (node instanceof CheckBox cb) {
+                        cb.setSelected(false);
+                    }
+                });
+            }
+        });
+
         fechaCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
 			fechaGridPane.setVisible(newVal);
 			fechaGridPane.setManaged(newVal);

@@ -5,6 +5,9 @@ package umu.tds.vista;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,14 +20,17 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import umu.tds.controlador.Controlador;
-/*import com.calendarfx.view.CalendarView;
+import umu.tds.modelo.Gasto;
+import umu.tds.modelo.Notificacion;
+
+import com.calendarfx.view.CalendarView;
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
-import com.calendarfx.model.Calendar.Style;*/
-import umu.tds.modelo.Notificacion;
+import com.calendarfx.model.Calendar.Style;
 
 public class ControladorVentanaPrincipal {
 	@FXML private Tab ventanaPrincipal; //pestaña inicial
@@ -37,6 +43,7 @@ public class ControladorVentanaPrincipal {
     @FXML private Button alert;
     @FXML private VBox botones;
     @FXML private Button filtro;
+    @FXML private MenuItem menuTerminal;
     @FXML private MenuItem menuCalendario;
     @FXML private MenuItem menuGraficos;
     @FXML private MenuItem menuHistorial;
@@ -54,6 +61,16 @@ public class ControladorVentanaPrincipal {
     
     public void mostrarEnTerminal(String texto) {
         terminal.appendText(texto + "\n");
+    }
+    
+    public String pedirTexto(String mensaje) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Nueva Cuenta");
+        dialog.setHeaderText(null);
+        dialog.setContentText(mensaje);
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
     
     //Correspondiente a las alertas -> notificaciones
@@ -74,7 +91,6 @@ public class ControladorVentanaPrincipal {
             }
         }
     }
-
 
     private void abrirPestaña(String titulo, String rutaFXML) {
     	try {
@@ -181,39 +197,83 @@ public class ControladorVentanaPrincipal {
     	System.exit(0);
     }
     
+    //Para que aparezcan los detalles de los gastos, al pinchar en ellos
+    private void mostrarVentanaDetalles(Entry<?> entry) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Detalle del Gasto");
+        alerta.setHeaderText("Información del gasto");
+
+        String contenido = "";
+
+        Object obj = entry.getUserObject();
+        if (obj instanceof Gasto gasto) {
+            contenido += "Nombre: " + gasto.getNombre();
+            contenido += "\nCantidad: " + gasto.getCantidad() + " €";
+            contenido += "\nFecha: " + gasto.getFecha();
+            contenido += "\nCategoría: " + gasto.getCategoria().getNombre();
+        } else {
+            contenido += entry.getTitle();
+            if (entry.getInterval() != null) {
+                contenido += "\nFecha: " + entry.getInterval().getStartDate();
+            }
+        }
+        alerta.setContentText(contenido);
+        alerta.showAndWait();
+    }
+    
     @FXML
     void mostrarCalendario(ActionEvent event) {
-    	//Si ya existe la pestaña, seleccionarla
-    	/*for (Tab tab : tabPane.getTabs()) {
-    		if (tab.getText().equals("Calendario")) {
-    			tabPane.getSelectionModel().select(tab);
-    			return;
-    		}
-    	}
-    	CalendarView calendarView = new CalendarView();
-    	calendarView.setShowFullDay(true); // Vista de día completo
-    	//Creamos uno para los gastos
-    	Calendar gastosCalendar = new Calendar("Gastos");
-    	gastosCalendar.setStyle(Style.STYLE1);
-    	///Cargar gastos
-    	controladorApp.getGastos().forEach(g -> {
-    		Entry<String> entry = new Entry<>(g.getNombre() + " - " + g.getCantidad() + "€");
-    		entry.setInterval(g.getFecha());
-    		gastosCalendar.addEntry(entry);
-    	});
-    	CalendarSource source = new CalendarSource("Mis Calendarios");	//(contenedor de calendarios)
-    	source.getCalendars().add(gastosCalendar);
-    	calendarView.getCalendarSources().add(source);
-    	calendarView.setRequestedTime(LocalTime.now());
-    	// Crear pestaña
-    	Tab tabCalendario = new Tab("Calendario");
-    	tabCalendario.setClosable(true);
-    	tabCalendario.setContent(calendarView);
-    	// Añadir y seleccionar
-    	tabPane.getTabs().add(tabCalendario);
-    	tabPane.getSelectionModel().select(tabCalendario);
-    	mostrarEnTerminal("Calendario abierto.");*/
+        for (Tab tab : tabPane.getTabs()) {
+            if ("Calendario".equals(tab.getText())) {
+                tabPane.getSelectionModel().select(tab);
+                return;
+            }
+        }
+
+        // Crear vista del calendario
+        CalendarView calendarView = new CalendarView();
+        calendarView.showMonthPage();
+
+        // Interceptar clic en entrada y mostrar ventana personalizada
+        calendarView.setEntryDetailsCallback(param -> {
+            Entry<?> entry = param.getEntry();
+            mostrarVentanaDetalles(entry);
+            return null;
+        });
+
+        // Crear calendarios por categoría
+        Map<String, Calendar<String>> calendariosPorCategoria = new HashMap<>();
+        controladorApp.getCategorias().forEach(cat -> {
+            Calendar<String> cal = new Calendar<>(cat.getNombre());
+            cal.setStyle(Style.getStyle(calendariosPorCategoria.size() % 5));
+            calendariosPorCategoria.put(cat.getNombre(), cal);
+        });
+
+        // Añadir gastos como Entry
+        controladorApp.getGastos().forEach(g -> {
+            Calendar<String> cal = calendariosPorCategoria.get(g.getCategoria().getNombre());
+            if (cal != null) {
+                Entry<Gasto> entry = new Entry<>(g.getNombre() + " - " + g.getCantidad() + "€");
+                entry.setInterval(g.getFecha());
+                entry.setUserObject(g);
+                entry.setFullDay(true);
+                cal.addEntry(entry);
+            }
+        });
+
+        // Crear fuente de calendarios
+        CalendarSource source = new CalendarSource("Gastos por Categoría");
+        source.getCalendars().addAll(calendariosPorCategoria.values());
+        calendarView.getCalendarSources().add(source);
+
+        // Crear pestaña
+        Tab tabCalendario = new Tab("Calendario");
+        tabCalendario.setClosable(true);
+        tabCalendario.setContent(calendarView);
+        tabPane.getTabs().add(tabCalendario);
+        tabPane.getSelectionModel().select(tabCalendario);
     }
+
 
     @FXML
     void mostrarHistorialNotificaciones(ActionEvent event) {
@@ -226,7 +286,7 @@ public class ControladorVentanaPrincipal {
 
 	    ListView<String> lista = new ListView<>();
 	    controladorApp.getNotificaciones().forEach(n -> {
-	        lista.getItems().add(n.getFecha() + "  -  " + n.getMensaje());
+	        lista.getItems().add(n.getFecha() + "  -->  " + n.getMensaje());
 	    });
 	    Tab tabHistorial = new Tab("Historial de Notificaciones");
 	    tabHistorial.setClosable(true);
@@ -252,6 +312,11 @@ public class ControladorVentanaPrincipal {
     		mostrarEnTerminal("Error al cargar la representación gráfica.");
     	}
     }
+    
+    @FXML
+    void modoTerminal(ActionEvent event) {
+    	//abrirPestaña("Terminal", "/umu/tds/VentanaTerminal.fxml");
+    }
 
     @FXML
     void initialize() {
@@ -263,6 +328,7 @@ public class ControladorVentanaPrincipal {
         assert menuCalendario != null : "fx:id=\"menuCalendario\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert menuGraficos != null : "fx:id=\"menuGraficos\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert menuHistorial != null : "fx:id=\"menuHistorial\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
+        assert menuTerminal != null : "fx:id=\"menuTerminal\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert modify != null : "fx:id=\"modify\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert notif != null : "fx:id=\"notif\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert remove != null : "fx:id=\"remove\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";

@@ -2,9 +2,9 @@ package umu.tds.controlador;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import umu.tds.modelo.Alerta;
@@ -12,7 +12,6 @@ import umu.tds.modelo.Categoria;
 import umu.tds.modelo.CuentaCompartida;
 import umu.tds.modelo.Gasto;
 import umu.tds.modelo.Notificacion;
-import umu.tds.modelo.Participante;
 import umu.tds.repository.Repositorio;
 import umu.tds.repository.impl.RepositorioAlertaJSON;
 import umu.tds.repository.impl.RepositorioCategoriaJSON;
@@ -22,12 +21,14 @@ import umu.tds.repository.impl.RepositorioNotificacionJSON;
 import umu.tds.vista.ControladorVentanaPrincipal;
 
 public class Controlador {
-	private Repositorio<Gasto> repositorioGasto = RepositorioGastoJSON.getInstance();
-	private Repositorio<Categoria> repositorioCategoria = RepositorioCategoriaJSON.getInstance();
-	private Repositorio<Alerta> repositorioAlerta = RepositorioAlertaJSON.getInstance();
-	private Repositorio<Notificacion> repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
-	private Repositorio<Gasto> repositorioCuentaCompartida = RepositorioCuentaCompartidaJSON.getInstance();
+	private Repositorio<Gasto> repositorioGasto;
+	private Repositorio<Categoria> repositorioCategoria;
+	private Repositorio<Alerta> repositorioAlerta;
+	private Repositorio<Notificacion> repositorioNotificacion;
+	private Repositorio<CuentaCompartida> repositorioCuentaCompartida;
+	private List<CuentaCompartida> cuentas = new ArrayList<>();
 	private CuentaCompartida cuentaActual;
+	
 	private ControladorVentanaPrincipal controladorVentanaPrincipal;
 	
 	public void setVentanaPrincipal(ControladorVentanaPrincipal v) {
@@ -39,7 +40,15 @@ public class Controlador {
 		this.repositorioCategoria = RepositorioCategoriaJSON.getInstance();
 		this.repositorioAlerta = RepositorioAlertaJSON.getInstance();
 		this.repositorioNotificacion = RepositorioNotificacionJSON.getInstance();
-		this.cuentaActual = new CuentaCompartida();
+		this.repositorioCuentaCompartida = RepositorioCuentaCompartidaJSON.getInstance();
+		// Cargar cuentas existentes desde el repositorio
+		this.cuentas = repositorioCuentaCompartida.findAll();
+		// Elegir cuenta actual (si existe alguna)
+		if (!cuentas.isEmpty()) {
+			this.cuentaActual = cuentas.get(0);
+		} else {
+			this.cuentaActual = null; // ya se creará con crearCuentaCompartida()
+		}
 	}
 	
 	public ObservableList<Gasto> getGastos() {
@@ -57,49 +66,61 @@ public class Controlador {
 	public ObservableList<Notificacion> getNotificaciones() {
 		return repositorioNotificacion.findAll();
 	}
+	
 	public CuentaCompartida getCuentaCompartida() {
-        return this.cuentaActual;
+        return cuentaActual;
     }
-	public void registrarGastoCompartido(String nombreParticipante, double cantidad) {
-        for (Participante p : cuentaActual.getParticipantes()) {
-            if (p.getNombre().equals(nombreParticipante)) {
-                // Sumamos lo que ha pagado a su saldo actual
-                p.setSaldo(p.getSaldo() + cantidad);
-                break;
-            }
-        }
-    }
-
+	
+	public List<CuentaCompartida> getCuentas() {
+		return cuentas;
+	}
+	
 	///Métodos auxiliares
 	private double calcularTotal(Alerta alerta, LocalDate fechaGasto) {
 		return getGastos().stream()
 				.filter(g -> g.getCategoria().equals(alerta.getCategoria()))
 				.filter(g -> {
-					return switch (alerta.getFrecuencia()) { 
-						case SEMANAL -> g.getFecha().isAfter(fechaGasto.minusDays(7));
-						case MENSUAL -> g.getFecha().getMonth() == fechaGasto.getMonth() && g.getFecha().getYear() == fechaGasto.getYear();
-						case ANUAL -> g.getFecha().getYear() == fechaGasto.getYear(); }; })
+					switch (alerta.getFrecuencia()) { 
+						case SEMANAL:
+							return !g.getFecha().isBefore(fechaGasto.minusDays(7));
+						case MENSUAL:
+							return g.getFecha().getMonth() == fechaGasto.getMonth()
+								&& g.getFecha().getYear() == fechaGasto.getYear();
+						case ANUAL:
+							return g.getFecha().getYear() == fechaGasto.getYear();
+						default:
+							return false;
+						} })
 				.mapToDouble(Gasto::getCantidad)
 				.sum();
 	}
 	
-	/*public List<Gasto> getGastosCalendario() {
-	    return repositorioGasto.findAll().stream().toList();
+	public void addGastoParticipante(String nombre, double cantidad) {
+	    cuentaActual.registrarGasto(nombre, cantidad);
+	    guardarCuentaCompartida();
+	    if (controladorVentanaPrincipal != null) {
+	        controladorVentanaPrincipal.mostrarEnTerminal("Gasto compartido registrado: " + nombre + " pagó " + cantidad + "€");
+	    }
 	}
 	
-	//Calendario por día
-	public List<Gasto> getGastosPorFecha(LocalDate fecha) {
-	    return getGastos().stream()
-	            .filter(g -> g.getFecha().equals(fecha))
-	            .toList();
+	public void guardarCuentaCompartida() {
+	    repositorioCuentaCompartida.modify(cuentaActual);
 	}
 	
-	//Calendario por mes
-	public List<Gasto> getGastosPorMes(Month mes) {
-	    return getGastos().stream()
-	            .filter(g -> g.getFecha().getMonth() == mes)
-	            .toList();
-	}*/
+	public void seleccionarCuentaCompartida(String nombre) {
+		this.cuentaActual = cuentas.stream()
+				.filter(c -> c.getNombre().equals(nombre))
+				.findFirst()
+				.orElse(null);
+	}
+	
+	public CuentaCompartida crearCuentaCompartida(String nombre) {
+		CuentaCompartida nueva = new CuentaCompartida(nombre);
+		repositorioCuentaCompartida.save(nueva);
+		cuentas.add(nueva);
+		cuentaActual = nueva;
+		return nueva;
+	}
 	
 	///Métodos referentes a las Historias de Usuario
 	public Gasto addGasto(String nombre, String categoriaStr, double cantidad, LocalDate fecha) {
@@ -116,21 +137,6 @@ public class Controlador {
 		return gasto;
 	}
 	
-	public void addGastoParticipante(String nombre, double cantidad) {
-		for (Participante p : cuentaActual.getParticipantes()) {
-	        if (p.getNombre().equals(nombre)) {
-	            // 2. Le sumamos el gasto a lo que ya llevaba pagado
-	            double nuevoSaldo = p.getSaldo() + cantidad;
-	            p.setSaldo(nuevoSaldo);
-	            
-	            
-	             Gasto g = new Gasto("Gasto compartido: " + nombre, cantidad);
-	             repositorioCuentaCompartida.save(g);
-	            break;
-	        }
-	    }
-	}
-
 	public void removeGasto(Gasto gasto) {
 		repositorioGasto.delete(gasto);
 	}
@@ -205,10 +211,9 @@ public class Controlador {
 	
 	//El método cogerá los meses seleccionados en el ComboBox y buscará gastos pertenecientes
 	// a esos meses
-	public List<Gasto> filtrarFechaPorMeses(Month... mes) {
-	    Set<Month> listaMeses = Set.of(mes); 	//convertir para búsqueda rápida
+	public List<Gasto> filtrarFechaPorMeses(List<Month> meses) {
 		return getGastos().stream()
-				.filter(g -> listaMeses.contains(g.getFecha().getMonth()))
+				.filter(g -> meses.contains(g.getFecha().getMonth()))
 				.toList();
 	}
 
@@ -218,7 +223,7 @@ public class Controlador {
 				.toList();
 	}
 	
-	public List<Gasto> filtrarGastos(		///Esto era una forma de hacerlo separado
+	public List<Gasto> filtrarGastos (		///Esto era una forma de hacerlo separado
 	        Set<Month> meses,               // meses seleccionados (puede ser vacío o null)
 	        LocalDate fechaInicio,          // fecha inicial (puede ser null)
 	        LocalDate fechaFin,             // fecha final (puede ser null)
@@ -236,8 +241,6 @@ public class Controlador {
 	                }
 	                return true;
 	            })
-	            .collect(Collectors.toList());
+	            .toList();
 	}
-	
-	//public List<Gasto> filtrarCombinacion() {	}
 }

@@ -14,12 +14,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
-  <!--<repositories>
-  	<repository>
-  		<id>calendarfx-github</id>
-  		<url>https://maven.pkg.github.com/dlsc-software-consulting-gmbh/CalendarFX</url>
-  	</repository>
-  </repositories>-->
+  <repositories>
+    <repository>
+        <id>dlsc</id>
+        <url>https://dlsc.com/maven2</url>
+    </repository>
+</repositories>
+
 
   <dependencies>
     <dependency>
@@ -30,15 +31,15 @@
     </dependency>
     
     <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-controls</artifactId>
-    <version>21</version>
+    	<groupId>org.openjfx</groupId>
+    	<artifactId>javafx-controls</artifactId>
+    	<version>21</version>
   	</dependency>
   	
     <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-fxml</artifactId>
-    <version>21</version>
+    	<groupId>org.openjfx</groupId>
+    	<artifactId>javafx-fxml</artifactId>
+    	<version>21</version>
  	</dependency>
  	
 	<!-- Jackson core -->
@@ -68,11 +69,33 @@
     	<version>2.19.4</version>
 	</dependency>
 	
-	<!--<dependency>
-    	<groupId>com.calendarfx</groupId>
-    	<artifactId>calendarfx-view</artifactId>
-    	<version>11.12.6</version>
-	</dependency>-->
+	<dependency>
+   		<groupId>org.controlsfx</groupId>
+    	<artifactId>controlsfx</artifactId>
+    	<version>11.2.0</version> <!-- Compatible con JavaFX 21 -->
+	</dependency>
+	
+	<!-- Ikonli Core -->
+	<dependency>
+	    <groupId>org.kordamp.ikonli</groupId>
+	    <artifactId>ikonli-core</artifactId>
+	    <version>12.3.1</version> <!-- o la versión compatible con CalendarFX -->
+	</dependency>
+	
+	<!-- Ikonli JavaFX -->
+	<dependency>
+	    <groupId>org.kordamp.ikonli</groupId>
+	    <artifactId>ikonli-javafx</artifactId>
+	    <version>12.3.1</version>
+	</dependency>
+	
+	<!-- Ikonli FontAwesome (CalendarFX lo usa internamente) -->
+	<dependency>
+		<groupId>org.kordamp.ikonli</groupId>
+		<artifactId>ikonli-fontawesome-pack</artifactId>
+		<version>12.3.1</version>
+	</dependency>
+
   </dependencies>
   
    <build>

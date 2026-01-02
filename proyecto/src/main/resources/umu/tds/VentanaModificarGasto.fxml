@@ -23,7 +23,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <HBox layoutX="227.0" layoutY="346.0" prefHeight="40.0" prefWidth="235.0" spacing="30.0">
+      <HBox AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="180.0" spacing="30.0" prefHeight="40.0" prefWidth="235.0">
          <children>
             <Button fx:id="BotonModificar" mnemonicParsing="false" onAction="#modificarGasto" prefHeight="35.0" prefWidth="81.0" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-weight: bold;" text="Modificar" />
             <Button fx:id="BotonCancelar" mnemonicParsing="false" onAction="#cancelar" prefHeight="35.0" prefWidth="69.0" style="-fx-background-color: lightgray; -fx-font-weight: bold;" text="Cancelar" />

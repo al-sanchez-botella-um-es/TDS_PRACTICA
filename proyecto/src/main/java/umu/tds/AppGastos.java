@@ -20,7 +20,7 @@ public class AppGastos extends Application {
 		Controlador controladorApp = new Controlador();
 		controladorVentana.setControladorApp(controladorApp);
 		
-        Scene escena = new Scene(contenedor, 1000, 500);	//tamaño de la mini ventana al ejecutar	
+        Scene escena = new Scene(contenedor, 1000, 600);	//tamaño de la mini ventana al ejecutar	
         ventanaPrincipal.setTitle("Aplicación: Gestión de Gastos");
         ventanaPrincipal.setScene(escena);
         //para que el usuario no amplíe la aplicación y siempre tenga el mismo tamaño

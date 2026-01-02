@@ -109,14 +109,14 @@ public class ControladorAñadirGasto {
     
     public void inicializarCategorias() {
         categoriasCreadas.setItems(controladorApp.getCategorias());
-        categoriasCreadas.setCellFactory(lv -> new ListCell<>() {
+        categoriasCreadas.setCellFactory(lv -> new ListCell<Categoria>() {
             @Override
             protected void updateItem(Categoria item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item.getNombre());
             }
         });
-        categoriasCreadas.setButtonCell(new ListCell<>() {
+        categoriasCreadas.setButtonCell(new ListCell<Categoria>() {
             @Override
             protected void updateItem(Categoria item, boolean empty) {
                 super.updateItem(item, empty);

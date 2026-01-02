@@ -53,11 +53,16 @@ public class Alerta {
 	}
 	
 	private EstrategiaAlerta seleccionarEstrategia(Frecuencia f) {
-		return switch (f) {
-			case SEMANAL -> new EstrategiaSemanal();
-			case MENSUAL -> new EstrategiaMensual();
-			case ANUAL -> new EstrategiaAnual();
-		};
+		switch (f) {
+			case SEMANAL:
+				return new EstrategiaSemanal();
+			case MENSUAL:
+				return new EstrategiaMensual();
+			case ANUAL:
+				return new EstrategiaAnual();
+			default:
+				return null;
+		}
 	}
 	
 	public boolean comprobarAlerta(List<Gasto> gastos) {

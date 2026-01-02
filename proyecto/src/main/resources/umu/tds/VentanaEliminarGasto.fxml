@@ -10,9 +10,9 @@
 
 <BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.vista.ControladorEliminarGasto">
    <left>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="332.0" prefWidth="110.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14pt; -fx-font-weight: bold;" text="Eliminar Gasto" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14pt; -fx-font-weight: bold;" text="Eliminar Gasto" wrappingWidth="82.26643371582031" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -25,14 +25,14 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
          </padding>
          <children>
-            <ListView fx:id="listaGastos" prefHeight="330.0" prefWidth="412.0" />
+            <ListView fx:id="listaGastos" prefWidth="457.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </center>
    <bottom>
       <VBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="47.0" prefWidth="282.0" spacing="40.0">
+            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="579.0" spacing="40.0">
                <children>
                   <Button fx:id="eliminarGasto" alignment="CENTER" mnemonicParsing="false" onAction="#eliminarGasto" prefHeight="48.0" prefWidth="127.0" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-weight: bold;" text="Eliminar">
                      <padding>

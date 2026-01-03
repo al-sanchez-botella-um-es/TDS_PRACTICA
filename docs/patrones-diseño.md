@@ -11,7 +11,7 @@ Se utiliza Singleton en:
 - Controlador principal:
   Gestiona la lógica central de la aplicación y coordina la interacción entre la interfaz y el modelo. Su instancia única evita inconsistencias y facilita el acceso global desde las distintas ventanas JavaFX.
 
---
+---
 ## Patrón Repositorio
 ### Motivación
 El patrón Repositorio desacopla la lógica de negocio de los detalles de persistencia.
@@ -27,7 +27,7 @@ Y cada uno ofrece operaciones como:
 
 La implementación concreta usa Jackson para leer/escribir en ficheros JSON, pero la capa de dominio no depende de ello.
 
---
+---
 ## Patrón Estrategia
 ### Motivación
 El sistema de alertas debe permitir diferentes criterios de evaluación: alertas semanales, mensuales, por categoría, etc.
@@ -43,7 +43,7 @@ public interface EstrategiaAlerta {
 Y varias implementaciones como: _AlertaSemanal_, _AlertaMensual_...
 Cada una definirá el método heredado como considere oportuno para su funcionalidad concreta.
 
---
+---
 ## Patrón Adaptador
 ### Motivación
 La aplicación debe importar gastos desde diferentes formatos externos (por ejemplo, CSV bancario, TXT, JSON externo…).
@@ -59,7 +59,7 @@ public interface AdaptadorImportadorGastos {
 Y adaptadores concretos como: _ImportadorCSV_, _ImportadorTXT_, _ImportadorJSON_...
 Cada adaptador transforma el formato externo al modelo interno.
 
---
+---
 ## Patrón Método Factoría
 ### Motivación
 El sistema debe seleccionar automáticamente el importador adecuado según el tipo de fichero proporcionado por el usuario.
@@ -77,11 +77,10 @@ public class FactoriaImportador {
 }
 ```
 
---
+---
 ## Conclusión
 El uso de estos patrones permite que la aplicación sea:
 - Extensible (nuevos tipos de alertas, nuevos importadores).
 - Mantenible (código desacoplado y modular).
 - Robusta (una única fuente de verdad para datos y notificaciones).
 - Clara en su arquitectura (repositorios, factorías, estrategias bien delimitadas).
-

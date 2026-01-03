@@ -1,15 +1,8 @@
 package umu.tds.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Participante {
-	@JsonProperty("Nombre")
     private String nombre;
-	@JsonProperty("Saldo")
     private double saldo;     // Lo que ha pagado
-	@JsonProperty("Porcentaje")
     private double porcentaje; // Su cuota (0.0 a 1.0)
     private double balanceCalculado;
     

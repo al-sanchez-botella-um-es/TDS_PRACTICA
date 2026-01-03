@@ -7,11 +7,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class CuentaCompartida {
-	@JsonProperty("Nombre")
 	private String nombre;
-	@JsonProperty("Participantes")
     private List<Participante> participantes;
     private boolean participantesFijados = false; // necesario para que la lista de participantes no se modifique
     
@@ -52,13 +49,6 @@ public class CuentaCompartida {
             throw new IllegalStateException("La lista de participantes ya está fijada y no se puede modificar.");
 
         participantes.removeIf(p -> p.getNombre().equals(nombre));
-    }
-
-    public void limpiarParticipantes() {
-        if (participantesFijados)
-            throw new IllegalStateException("La lista de participantes ya está fijada y no se puede modificar.");
-
-        participantes.clear();
     }
 
     public void fijarParticipantes() {

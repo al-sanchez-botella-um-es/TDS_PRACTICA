@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
     <fullyQualifiedTypeName name="umu.tds.repositorios.RepositorioGasto"/>
-    <fullyQualifiedTypeName name="umu.tds.vista.ControladorAñadirGasto"/>
     <fullyQualifiedTypeName name="umu.tds.vista.ControladorVentanaPrincipal"/>
     <fullyQualifiedTypeName name="umu.tds.repository.impl.RepositorioGastoJSON"/>
     <fullyQualifiedTypeName name="javafx.scene.control.DatePicker"/>
@@ -14,4 +13,5 @@
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="umu.tds.repository.impl.RepositorioCuentaCompartida"/>
     <fullyQualifiedTypeName name="umu.tds.repository.impl.RepositorioCuentaCompartidaJSON"/>
+    <fullyQualifiedTypeName name="umu.tds.vista.ControladorAñadirGasto"/>
 </qualifiedTypeNameHistroy>

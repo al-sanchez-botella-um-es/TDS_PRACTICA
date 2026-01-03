@@ -3,6 +3,7 @@ package umu.tds.vista;
 ///La terminal irá en una clase main aparte, con el mismo controlador y modelo pero diferente vista
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;

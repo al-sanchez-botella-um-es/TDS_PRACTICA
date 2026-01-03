@@ -1,8 +1,8 @@
 # "Gestión de Gastos"
 ## Integrantes del grupo
-María Isabel Pérez Lisón - mi.perezlison@um.es - 3.2
-Ana Luo Sánchez Botella - al.sanchezbotella@um.es - 3.2
-Leonie Swart
+- María Isabel Pérez Lisón - mi.perezlison@um.es - 3.2
+- Ana Luo Sánchez Botella - al.sanchezbotella@um.es - 3.2
+- Leonie Swart
 
 ---
 ## Descripción del proyecto
@@ -29,7 +29,8 @@ Se emplean Maven para la gestión de dependencias y Git para el control de versi
 ### 2. Ejecución desde línea de comandos
 ```bash
 mvn clean install
-mvn javafx:run
+mvn javafx:ruN
+```
 
 ### 3. Ejecución desde un IDE
 1. Importar el proyecto como _Maven Proyect_.

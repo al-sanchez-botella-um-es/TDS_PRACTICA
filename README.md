@@ -23,18 +23,15 @@ Se emplean Maven para la gestión de dependencias y Git para el control de versi
 
 ---
 ## Cómo ejecutar el proyecto
-### 1. Requisitos previos
-...
+### Requisitos previos
+- JDK 17 o superior
+- Maven instalado
+- JavaFX configurado
 
-### 2. Ejecución desde línea de comandos
-```bash
-mvn clean install
-mvn javafx:ruN
-```
-
-### 3. Ejecución desde un IDE
+### Ejecución desde un IDE (Eclipse)
 1. Importar el proyecto como _Maven Proyect_.
-...
+2. Asegurar que el SDK y JavaFX están correctamente configurados.
+3. Ejecutar la clase principal desde el módulo correspondiente, ya sea para ejecutarla mediante interfaz gráfica (umu.tds.AppGastos.java) o uso de línea de comandos (umu.tds.controlador.Terminal.java)
 
 ---
 ## Documentación del proyecto

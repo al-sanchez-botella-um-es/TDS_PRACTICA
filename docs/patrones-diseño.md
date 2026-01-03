@@ -9,8 +9,7 @@ Se utiliza Singleton en:
 - Gestor de Persistencia:
   Cada repositorio se implementa como Singleton para asegurar que toda la aplicación trabaja sobre la misma colección de datos cargada desde JSON.
 - Controlador principal:
-  Gestiona la lógica central de la aplicación y coordina la interacción entre la interfaz y el modelo.
-  Su instancia única evita inconsistencias y facilita el acceso global desde las distintas ventanas JavaFX.
+  Gestiona la lógica central de la aplicación y coordina la interacción entre la interfaz y el modelo. Su instancia única evita inconsistencias y facilita el acceso global desde las distintas ventanas JavaFX.
 
 --
 ## Patrón Repositorio
@@ -85,3 +84,4 @@ El uso de estos patrones permite que la aplicación sea:
 - Mantenible (código desacoplado y modular).
 - Robusta (una única fuente de verdad para datos y notificaciones).
 - Clara en su arquitectura (repositorios, factorías, estrategias bien delimitadas).
+

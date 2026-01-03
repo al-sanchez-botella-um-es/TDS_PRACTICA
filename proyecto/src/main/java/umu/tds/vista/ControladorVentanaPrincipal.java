@@ -3,7 +3,6 @@ package umu.tds.vista;
 ///La terminal irá en una clase main aparte, con el mismo controlador y modelo pero diferente vista
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -44,7 +43,6 @@ public class ControladorVentanaPrincipal {
     @FXML private Button alert;
     @FXML private VBox botones;
     @FXML private Button filtro;
-    @FXML private MenuItem menuTerminal;
     @FXML private MenuItem menuCalendario;
     @FXML private MenuItem menuGraficos;
     @FXML private MenuItem menuHistorial;
@@ -313,11 +311,6 @@ public class ControladorVentanaPrincipal {
     		mostrarEnTerminal("Error al cargar la representación gráfica.");
     	}
     }
-    
-    @FXML
-    void modoTerminal(ActionEvent event) {
-    	//abrirPestaña("Terminal", "/umu/tds/VentanaTerminal.fxml");
-    }
 
     @FXML
     void initialize() {
@@ -329,7 +322,6 @@ public class ControladorVentanaPrincipal {
         assert menuCalendario != null : "fx:id=\"menuCalendario\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert menuGraficos != null : "fx:id=\"menuGraficos\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert menuHistorial != null : "fx:id=\"menuHistorial\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
-        assert menuTerminal != null : "fx:id=\"menuTerminal\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert modify != null : "fx:id=\"modify\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert notif != null : "fx:id=\"notif\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";
         assert remove != null : "fx:id=\"remove\" was not injected: check your FXML file 'VentanaPrincipalGastos.fxml'.";

@@ -20,7 +20,6 @@
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
                   <MenuItem fx:id="menuVentanaPrincipal" mnemonicParsing="false" onAction="#volverAlInicio" text="Ventana de inicio" />
-                  <MenuItem fx:id="menuTerminal" mnemonicParsing="false" onAction="#modoTerminal" text="Terminal" />
               	  <MenuItem fx:id="menuSalir" mnemonicParsing="false" onAction="#salirDeLaAplicacion" text="Salir" />
             </items>
           </Menu>

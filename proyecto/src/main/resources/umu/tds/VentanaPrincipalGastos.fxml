@@ -57,6 +57,7 @@
             <Button fx:id="filtro" mnemonicParsing="false" onAction="#filtro" text="Filtrado de Gastos" />
             <Button fx:id="alert" mnemonicParsing="false" onAction="#configurarAlertas" text="Configurar Alertas" />
             <Button fx:id="account" mnemonicParsing="false" onAction="#crearCuentaCompartida" text="Cuenta Compartida" />
+            <Button fx:id="import" mnemonicParsing="false" onAction="#importarGastos" text="Importar Gastos" /> 
          </children>
          <BorderPane.margin>
             <Insets />

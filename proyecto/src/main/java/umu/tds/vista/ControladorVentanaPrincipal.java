@@ -143,6 +143,11 @@ public class ControladorVentanaPrincipal {
             	((ControladorCuentaCompartida) controlador).setControladorApp(controladorApp);
             }
             
+            if (controlador instanceof ControladorImportarGastos) {
+				((ControladorImportarGastos) controlador).setControladorPrincipal(this);
+				((ControladorImportarGastos) controlador).setControladorApp(controladorApp);
+			}
+            
             Tab nuevaTab = new Tab(titulo);
             nuevaTab.setClosable(true);	
             nuevaTab.setContent(contenido);
@@ -185,6 +190,11 @@ public class ControladorVentanaPrincipal {
     	abrirPestaña("Filtrar Gastos", "/umu/tds/VentanaFiltrarGastos.fxml");
     }
     
+    @FXML
+    void importarGastos(ActionEvent event) {
+    	abrirPestaña("Importar Gastos", "/umu/tds/VentanaImportar.fxml");
+    }
+   
     @FXML
     void volverAlInicio(ActionEvent event) {
         tabPane.getTabs().clear();

@@ -1,41 +1,18 @@
 [ {
+  "nombre" : "Cuenta",
+  "participantes" : [ {
+    "nombre" : "Juanjito",
+    "saldo" : 100.0,
+    "porcentaje" : 0.99,
+    "porcentajeVisual" : "99,0%",
+    "balanceTexto" : "+1,00"
+  }, {
+    "nombre" : "Ferri",
+    "saldo" : 0.0,
+    "porcentaje" : 0.01,
+    "porcentajeVisual" : "1,0%",
+    "balanceTexto" : "-1,00"
+  } ],
   "participantesFijados" : true,
-  "gastoTotalDelGrupo" : 20.0,
-  "Nombre" : "Casa Rural",
-  "Participantes" : [ {
-    "balanceTexto" : "-10,00",
-    "porcentajeVisual" : "50,0%",
-    "Nombre" : "Marta",
-    "Saldo" : 0.0,
-    "Porcentaje" : 0.5
-  }, {
-    "balanceTexto" : "+10,00",
-    "porcentajeVisual" : "50,0%",
-    "Nombre" : "Eva",
-    "Saldo" : 20.0,
-    "Porcentaje" : 0.5
-  } ]
-}, {
-  "participantesFijados" : true,
-  "gastoTotalDelGrupo" : 110.43,
-  "Nombre" : "Viaje Verano",
-  "Participantes" : [ {
-    "balanceTexto" : "-36,81",
-    "porcentajeVisual" : "33,3%",
-    "Nombre" : "Luisa",
-    "Saldo" : 0.0,
-    "Porcentaje" : 0.3333333333333333
-  }, {
-    "balanceTexto" : "+8,19",
-    "porcentajeVisual" : "33,3%",
-    "Nombre" : "Rebeca",
-    "Saldo" : 45.0,
-    "Porcentaje" : 0.3333333333333333
-  }, {
-    "balanceTexto" : "+28,62",
-    "porcentajeVisual" : "33,3%",
-    "Nombre" : "Julia",
-    "Saldo" : 65.43,
-    "Porcentaje" : 0.3333333333333333
-  } ]
+  "gastoTotalDelGrupo" : 100.0
 } ]

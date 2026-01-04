@@ -61,11 +61,4 @@
   },
   "Cantidad" : 5.0,
   "Fecha" : "03-01-2026"
-}, {
-  "nombre" : "Ordenador",
-  "Categoria" : {
-    "nombre" : "Caprichos"
-  },
-  "Cantidad" : 501.0,
-  "Fecha" : "03-01-2026"
 } ]

@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CuentaCompartida {
+	@JsonProperty("Nombre")
 	private String nombre;
+	@JsonProperty("Participantes")
     private List<Participante> participantes;
     private boolean participantesFijados = false; // necesario para que la lista de participantes no se modifique
     
@@ -47,7 +53,6 @@ public class CuentaCompartida {
 
         participantes.removeIf(p -> p.getNombre().equals(nombre));
     }
-
 
     public void fijarParticipantes() {
         this.participantesFijados = true;

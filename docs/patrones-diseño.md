@@ -67,13 +67,13 @@ El sistema debe seleccionar automáticamente el importador adecuado según el ti
 ### Aplicación en el proyecto
 Se implementa una factoría:
 ```
-public class FactoriaImportador {
-    public static ImportadorGastos crearImportador(File fichero) {
-        if (fichero.getName().endsWith(".csv")) return new ImportadorCSV();
-        if (fichero.getName().endsWith(".txt")) return new ImportadorTXT();
-        if (fichero.getName().endsWith(".json")) return new ImportadorJSON();
-        throw new IllegalArgumentException("Formato no soportado");
-    }
+public class FactoriaImportadorGastos {
+	public static AdaptadorImportadorGastos getImportador(File archivo) {
+		String nombre = archivo.getName().toLowerCase();
+		if (nombre.endsWith(".csv")) return new AdaptadorCSV();
+		//...
+		throw new IllegalArgumentException("Formato no soportado: " + nombre);
+	}
 }
 ```
 

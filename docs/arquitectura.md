@@ -11,12 +11,12 @@ Además incorpora funcionalidades para el trabajo cooperativo mediante cuentas d
 # Conceptos básicos
 La arquitectura de la aplicación se basa en el patrón Modelo-Vista-Controlador (MVC), el cual desacopla la lógica de negocio de la interfaz de usuario. A continuación se detallan sus tres componentes en el contexto de este proyecto:
 
-El *** Modelo *** representa los datos, la lógica de negocio y las reglas de la aplicación. Este componente es independiente de la interfaz gráfica y se estructura en dos bloques principales:
+El ***Modelo*** representa los datos, la lógica de negocio y las reglas de la aplicación. Este componente es independiente de la interfaz gráfica y se estructura en dos bloques principales:
  - *Entidades*: Clases como Gasto, Participante, Categoria, CuentaCompartida, Notificacion y Alerta. En estas clases se encuentran los datos necesarios de la aplicación y la lógica de negocio intrínseca (cómo calcular el saldo pendiente de una persona en una cuenta compartida o verificar si un gasto supera el límite de una alerta).
  - *Persistencia*: El modelo integra la capa de acceso a datos ubicada en el paquete `umu.tds.repository`. Siguiendo el Patrón Repositorio, se definen interfaces que desacoplan el dominio de la tecnología de almacenamiento. Las implementaciones concretas `umu.tds.repository.impl` son las encargadas de materializar la persistencia en ficheros JSON utilizando la librería Jackson.
 
 
-La *** Vista *** corresponde a la interfaz gráfica desarrollada en JavaFX, cuya responsabilidad principal es presentar la información del modelo y capturar las acciones del usuario. Esta capa no contiene lógica de negocio, limitándose a la visualización de datos y a la delegación de eventos hacia el controlador. La vista está compuesta por los siguientes elementos:
+La ***Vista*** corresponde a la interfaz gráfica desarrollada en JavaFX, cuya responsabilidad principal es presentar la información del modelo y capturar las acciones del usuario. Esta capa no contiene lógica de negocio, limitándose a la visualización de datos y a la delegación de eventos hacia el controlador. La vista está compuesta por los siguientes elementos:
  - *Ficheros FXML*: definen la estructura visual de las ventanas y componentes de la aplicación.    
  - *Controladores de Vista*: clases Java asociadas a cada FXML que gestionan los eventos de la interfaz. Estos controladores recogen los datos introducidos por el usuario y delegan su procesamiento en el controlador principal de la aplicación.
 
@@ -27,7 +27,7 @@ Para poder realizar operaciones de negocio, la vista mantiene una referencia a l
 La navegación entre las distintas pantallas de la aplicación no se realiza mediante la apertura de nuevas ventanas del sistema operativo, sino a través de un sistema de pestañas dinámicas gestionado centralizadamente por la clase ControladorVentanaPrincipal.
 
 
-El *** Controlador *** actúa como intermediario entre el modelo y la vista, exponiendo las operaciones de negocio que el usuario puede ejecutar. La interfaz de usuario invoca estas operaciones y presenta al usuario las respuestas obtenidas. A su vez, el controlador se encarga de recuperar y almacenar datos en el repositorio de datos, así como de comprobar las precondiciones necesarias para cada operación.
+El ***Controlador*** actúa como intermediario entre el modelo y la vista, exponiendo las operaciones de negocio que el usuario puede ejecutar. La interfaz de usuario invoca estas operaciones y presenta al usuario las respuestas obtenidas. A su vez, el controlador se encarga de recuperar y almacenar datos en el repositorio de datos, así como de comprobar las precondiciones necesarias para cada operación.
 Este componente está implementado en la clase Controlador, dentro del paquete `umu.tds.controlador`.
 
 Entre sus capacidades más destacadas se encuentra el procesamiento de datos en memoria mediante Java Streams, lo cual se refleja en funcionalidades clave como:
@@ -35,7 +35,4 @@ Entre sus capacidades más destacadas se encuentra el procesamiento de datos en 
     - *Sistema de Filtrado*: construcción de predicados complejos que permiten realizar búsquedas multicriterio (fechas, categorías, meses), devolviendo vistas depuradas de la información.
 
 Finalmente, el controlador gestiona el ciclo de vida de la interfaz mediante su vínculo con ControladorVentanaPrincipal, manteniendo una comunicación bidireccional que le permite no solo responder a las peticiones del usuario, sino también actuar de forma proactiva. Gracias a esta conexión, puede notificar a la interfaz ante eventos críticos, como la superación de un presupuesto, y actualizar en tiempo real el estado de los participantes en cuentas compartidas mediante avisos emergentes o la actualización del panel de notificaciones del día.
-=======
-El controlador central concentra varias responsabilidades. Aunque esto no sigue estrictamente los principios GRASP de alta cohesión y bajo acoplamiento, se ha priorizado la simplicidad y claridad para un proyecto académico. En un entorno profesional, estas responsabilidades se distribuirían en servicios especializados para mejorar la mantenibilidad.
 
->>>>>>> 5758f19cb4619259915853a0a22beae7b816fa69

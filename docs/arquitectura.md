@@ -31,8 +31,8 @@ Actúa como intermediario entre el modelo y la vista, exponiendo las operaciones
 Este componente está implementado en la clase Controlador, dentro del paquete `umu.tds.controlador`.
 
 Entre sus capacidades más destacadas se encuentra el procesamiento de datos en memoria mediante Java Streams, lo cual se refleja en funcionalidades clave como:
-    - *Motor de Alertas*: tras el registro de un gasto, el controlador ejecuta un proceso de verificación que filtra y acumula los gastos del periodo correspondiente (semanal o mensual) para contrastarlos con los límites definidos por el usuario.
-    - *Sistema de Filtrado*: construcción de predicados complejos que permiten realizar búsquedas multicriterio (fechas, categorías, meses), devolviendo vistas depuradas de la información.
+ - *Motor de Alertas*: tras el registro de un gasto, el controlador ejecuta un proceso de verificación que filtra y acumula los gastos del periodo correspondiente (semanal o mensual) para contrastarlos con los límites definidos por el usuario.
+ - *Sistema de Filtrado*: construcción de predicados complejos que permiten realizar búsquedas multicriterio (fechas, categorías, meses), devolviendo vistas depuradas de la información.
 
 Finalmente, el controlador gestiona el ciclo de vida de la interfaz mediante su vínculo con ControladorVentanaPrincipal, manteniendo una comunicación bidireccional que le permite no solo responder a las peticiones del usuario, sino también actuar de forma proactiva. Gracias a esta conexión, puede notificar a la interfaz ante eventos críticos, como la superación de un presupuesto, y actualizar en tiempo real el estado de los participantes en cuentas compartidas mediante avisos emergentes o la actualización del panel de notificaciones del día.
 

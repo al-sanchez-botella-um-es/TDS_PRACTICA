@@ -1,6 +1,7 @@
 package umu.tds.vista;
 
 ///La terminal irá en una clase main aparte, con el mismo controlador y modelo pero diferente vista
+///Los controladores de la vista realizan comprobaciones de los campos que podrían hacerse en el controlador principal
 
 import java.io.IOException;
 import java.net.URL;
@@ -194,7 +195,7 @@ public class ControladorVentanaPrincipal {
     void importarGastos(ActionEvent event) {
     	abrirPestaña("Importar Gastos", "/umu/tds/VentanaImportar.fxml");
     }
-   
+    
     @FXML
     void volverAlInicio(ActionEvent event) {
         tabPane.getTabs().clear();

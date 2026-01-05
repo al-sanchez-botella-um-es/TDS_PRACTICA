@@ -14,4 +14,18 @@
   "nombre" : "Reforma"
 }, {
   "nombre" : "Mascota"
+}, {
+  "nombre" : "Comida"
+}, {
+  "nombre" : "Transporte Público"
+}, {
+  "nombre" : "Ocio"
+}, {
+  "nombre" : "Gasolina"
+}, {
+  "nombre" : "Regalos"
+}, {
+  "nombre" : "Reparaciones"
+}, {
+  "nombre" : "Gastos Médicos"
 } ]

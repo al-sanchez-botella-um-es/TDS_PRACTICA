@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Arquitectura de Gestión de Gastos
 La aplicación implementa un sistema de escritorio para el control y seguimiento de las finanzas personales, manteniendo un registro persistente de todos los movimientos monetarios. Permite al usuario interactuar con la información tanto mediante una Interfaz Gráfica de Usuario como a través de una línea de comandos para operaciones básicas.
 
@@ -34,3 +35,7 @@ Entre sus capacidades más destacadas se encuentra el procesamiento de datos en 
     - *Sistema de Filtrado*: construcción de predicados complejos que permiten realizar búsquedas multicriterio (fechas, categorías, meses), devolviendo vistas depuradas de la información.
 
 Finalmente, el controlador gestiona el ciclo de vida de la interfaz mediante su vínculo con ControladorVentanaPrincipal, manteniendo una comunicación bidireccional que le permite no solo responder a las peticiones del usuario, sino también actuar de forma proactiva. Gracias a esta conexión, puede notificar a la interfaz ante eventos críticos, como la superación de un presupuesto, y actualizar en tiempo real el estado de los participantes en cuentas compartidas mediante avisos emergentes o la actualización del panel de notificaciones del día.
+=======
+El controlador central concentra varias responsabilidades. Aunque esto no sigue estrictamente los principios GRASP de alta cohesión y bajo acoplamiento, se ha priorizado la simplicidad y claridad para un proyecto académico. En un entorno profesional, estas responsabilidades se distribuirían en servicios especializados para mejorar la mantenibilidad.
+
+>>>>>>> 5758f19cb4619259915853a0a22beae7b816fa69

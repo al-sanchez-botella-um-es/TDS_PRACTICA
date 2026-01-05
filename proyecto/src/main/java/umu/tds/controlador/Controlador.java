@@ -197,10 +197,6 @@ public class Controlador {
 	        }
 	    }
 	}
-
-	public void importarGastos() {
-		
-	}
 	
 	//se buscará con las fechas inclusive
 	public List<Gasto> filtrarFecha(LocalDate fechainicio, LocalDate fechafin) {

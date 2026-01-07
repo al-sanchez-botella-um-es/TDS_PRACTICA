@@ -21,4 +21,4 @@ Si obtiene un error al iniciar, debe configurar los argumentos de la máquina vi
  1. Vaya al menú **Run -> Run Configurations**.
  2. Seleccione la pestaña **Arguments**.
  3. En la caja **VM arguments**, pegue el siguiente comando (sustituyendo `<ruta-a-javafx>` por la ubicación real donde se encuentra la librería):
- `--module-path "<ruta-a-javafx>/lib" --add-modules javafx.controls,javafx.fxml`
+ `--module-path "..\openjfx-21.0.9_windows-x64_bin-sdk\javafx-sdk-21.0.9\lib" --add-modules javafx.controls,javafx.fxml`

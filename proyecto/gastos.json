@@ -467,4 +467,207 @@
   },
   "Cantidad" : 16.0,
   "Fecha" : "20-02-2022"
+}, {
+  "nombre" : "Desayuno en cafetería",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 4.5,
+  "Fecha" : "02-03-2022"
+}, {
+  "nombre" : "Billetes de metro",
+  "Categoria" : {
+    "nombre" : "Transporte Público"
+  },
+  "Cantidad" : 6.0,
+  "Fecha" : "02-03-2022"
+}, {
+  "nombre" : "Alquiler de película en streaming",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 3.99,
+  "Fecha" : "01-03-2022"
+}, {
+  "nombre" : "Repostaje en gasolinera",
+  "Categoria" : {
+    "nombre" : "Gasolina"
+  },
+  "Cantidad" : 45.0,
+  "Fecha" : "01-03-2022"
+}, {
+  "nombre" : "Pizza para cenar",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 18.5,
+  "Fecha" : "01-03-2022"
+}, {
+  "nombre" : "Partida de billar en bar",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 12.0,
+  "Fecha" : "01-03-2022"
+}, {
+  "nombre" : "Billete de autobús urbano",
+  "Categoria" : {
+    "nombre" : "Transporte Público"
+  },
+  "Cantidad" : 1.5,
+  "Fecha" : "01-03-2022"
+}, {
+  "nombre" : "Compra de taza personalizada",
+  "Categoria" : {
+    "nombre" : "Regalos"
+  },
+  "Cantidad" : 9.9,
+  "Fecha" : "28-02-2022"
+}, {
+  "nombre" : "Compra en supermercado",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 32.4,
+  "Fecha" : "28-02-2022"
+}, {
+  "nombre" : "Juego para móvil",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 2.99,
+  "Fecha" : "27-02-2022"
+}, {
+  "nombre" : "Cena de hamburguesas",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 21.0,
+  "Fecha" : "26-02-2022"
+}, {
+  "nombre" : "Repostaje coche compartido",
+  "Categoria" : {
+    "nombre" : "Gasolina"
+  },
+  "Cantidad" : 30.0,
+  "Fecha" : "26-02-2022"
+}, {
+  "nombre" : "Cambio de bombilla del coche",
+  "Categoria" : {
+    "nombre" : "Reparaciones"
+  },
+  "Cantidad" : 7.5,
+  "Fecha" : "26-02-2022"
+}, {
+  "nombre" : "Recarga tarjeta de transporte",
+  "Categoria" : {
+    "nombre" : "Transporte Público"
+  },
+  "Cantidad" : 20.0,
+  "Fecha" : "26-02-2022"
+}, {
+  "nombre" : "Bocadillo y refresco",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 5.25,
+  "Fecha" : "26-02-2022"
+}, {
+  "nombre" : "Cerveza en pub",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 6.0,
+  "Fecha" : "26-02-2022"
+}, {
+  "nombre" : "Compra de vitaminas",
+  "Categoria" : {
+    "nombre" : "Gastos Médicos"
+  },
+  "Cantidad" : 12.75,
+  "Fecha" : "25-02-2022"
+}, {
+  "nombre" : "Compra de música digital",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 4.99,
+  "Fecha" : "24-02-2022"
+}, {
+  "nombre" : "Cena en restaurante",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 28.0,
+  "Fecha" : "24-02-2022"
+}, {
+  "nombre" : "Taxi nocturno",
+  "Categoria" : {
+    "nombre" : "Transporte Público"
+  },
+  "Cantidad" : 11.0,
+  "Fecha" : "24-02-2022"
+}, {
+  "nombre" : "Compra de tarjeta regalo",
+  "Categoria" : {
+    "nombre" : "Regalos"
+  },
+  "Cantidad" : 15.0,
+  "Fecha" : "23-02-2022"
+}, {
+  "nombre" : "Pedido de sushi a domicilio",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 24.6,
+  "Fecha" : "23-02-2022"
+}, {
+  "nombre" : "Repostaje rápido",
+  "Categoria" : {
+    "nombre" : "Gasolina"
+  },
+  "Cantidad" : 20.0,
+  "Fecha" : "23-02-2022"
+}, {
+  "nombre" : "Billete de tren",
+  "Categoria" : {
+    "nombre" : "Transporte Público"
+  },
+  "Cantidad" : 14.5,
+  "Fecha" : "22-02-2022"
+}, {
+  "nombre" : "Alquiler de videojuego",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 5.99,
+  "Fecha" : "21-02-2022"
+}, {
+  "nombre" : "Compra de herramientas básicas",
+  "Categoria" : {
+    "nombre" : "Reparaciones"
+  },
+  "Cantidad" : 19.8,
+  "Fecha" : "21-02-2022"
+}, {
+  "nombre" : "Compra de termómetro digital",
+  "Categoria" : {
+    "nombre" : "Gastos Médicos"
+  },
+  "Cantidad" : 8.4,
+  "Fecha" : "21-02-2022"
+}, {
+  "nombre" : "Café y bollería",
+  "Categoria" : {
+    "nombre" : "Comida"
+  },
+  "Cantidad" : 3.2,
+  "Fecha" : "21-02-2022"
+}, {
+  "nombre" : "Entradas para el cine",
+  "Categoria" : {
+    "nombre" : "Ocio"
+  },
+  "Cantidad" : 50.0,
+  "Fecha" : "20-02-2022"
 } ]

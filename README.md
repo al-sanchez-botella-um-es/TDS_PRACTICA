@@ -1,8 +1,8 @@
 # "Gestión de Gastos"
 ## Integrantes del grupo
-- María Isabel Pérez Lisón - mi.perezlison@um.es - 3.2
-- Ana Luo Sánchez Botella - al.sanchezbotella@um.es - 3.2
-- Leonie Swart
+- María Isabel Pérez Lisón - mi.perezlison@um.es - G3.2
+- Ana Luo Sánchez Botella - al.sanchezbotella@um.es - G3.2
+- Leonie Swart - leonie.swart@um.es - G3.2
 
 ---
 ## Descripción del proyecto

@@ -1,0 +1,43 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text></help_text><element><id>Text</id><coordinates><x>1510</x><y>280</y><w>190</w><h>40</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>350</x><y>0</y><w>350</w><h>80</h></coordinates><panel_attributes>Aqui se va a tener que hacer  la persistencia, los updates 
+y todo eso. El controladorse lo delega al Repositorio
+Tiene q ser un interfaz. mayor estabilidad
+bg=pink</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>1340</x><y>40</y><w>490</w><h>70</h></coordinates><panel_attributes>CON REPOSITORIO Y CONTROLADOR
+bg=green
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>820</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>Alerta
+--
+- id : Integer
+- fecha : LocalDateTime
+- cantidad: Double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>460</x><y>390</y><w>120</w><h>70</h></coordinates><panel_attributes>Categoria
+--
+- id : Integer
+- nombre : String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>400</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+</panel_attributes><additional_attributes>10;20;140;20</additional_attributes></element><element><id>Text</id><coordinates><x>400</x><y>390</y><w>60</w><h>30</h></coordinates><panel_attributes>categoria</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>420</x><y>420</y><w>20</w><h>20</h></coordinates><panel_attributes>1
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>460</y><w>120</w><h>150</h></coordinates><panel_attributes>lt=&lt;-&gt;&gt;&gt;&gt;</panel_attributes><additional_attributes>10;10;100;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>590</y><w>370</w><h>120</h></coordinates><panel_attributes>CuentaCompartida
+-
+- final listaPersonas : Map&lt;String, Double&gt; () //nombre, saldo
+- listaPorcentaje : Map&lt;String, Double&gt; //nombre, porcentaje
+-
++ dineroPendientePorPersona()
++ asignarPorcentajePorDefecto()
++ asignarPorcentaje() //personalizado
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>310</x><y>560</y><w>50</w><h>30</h></coordinates><panel_attributes>gastos</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>270</x><y>490</y><w>30</w><h>30</h></coordinates><panel_attributes>0..*</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>370</y><w>140</w><h>100</h></coordinates><panel_attributes>Gasto
+--
+- id : Integer
+- nombre : String
+- fecha : LocalDateTime
+- cantidad : Double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>420</y><w>270</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;250;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>610</x><y>140</y><w>140</w><h>180</h></coordinates><panel_attributes>Controlador
+-
++ addGasto()
++ removeGasto()
++ modifyGasto()
++ configurarAlerta()
++ visualizarAlerta()
++ comprobarAlertas()
++ importarGastos()
++ filtrarFecha()
++ filtrarCategoria()
++ filtrarCombinacion()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>590</x><y>400</y><w>60</w><h>30</h></coordinates><panel_attributes>categoria</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>180</x><y>180</y><w>160</w><h>30</h></coordinates><panel_attributes>&lt;Interface&gt; Repositorio</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>200</y><w>30</w><h>190</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes><additional_attributes>10;170;10;10</additional_attributes></element><element><id>Text</id><coordinates><x>360</x><y>210</y><w>20</w><h>20</h></coordinates><panel_attributes>1
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>350</x><y>170</y><w>70</w><h>30</h></coordinates><panel_attributes>repgastos</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>90</x><y>90</y><w>170</w><h>70</h></coordinates><panel_attributes>Se encarga de la persistencia
+Controlador delega TODOS 
+los gastos al repositorio
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>330</x><y>390</y><w>30</w><h>30</h></coordinates><panel_attributes>0..*</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>190</y><w>300</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;280;10</additional_attributes></element><element><id>Relation</id><coordinates><x>740</x><y>200</y><w>170</w><h>230</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>150;210;10;10</additional_attributes></element><element><id>Text</id><coordinates><x>880</x><y>360</y><w>50</w><h>30</h></coordinates><panel_attributes>alertas</panel_attributes><additional_attributes></additional_attributes></element></diagram>
